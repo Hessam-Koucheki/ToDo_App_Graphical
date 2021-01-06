@@ -5,7 +5,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include "app.hpp"
-
+#include "add.hpp"
 using namespace std;
 
 void start_app()
@@ -69,6 +69,7 @@ while (window.isOpen())
                         window.display();
                     }
                     cout << "add" << endl;
+                    add();
                 }
             }
         } // End Mouse CLICK 
