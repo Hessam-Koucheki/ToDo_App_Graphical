@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <unistd.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
@@ -34,6 +35,13 @@ void start_app()
     sf::Sprite add_sprite_clicked;
     add_sprite_clicked.setTexture(add_texture_clicked);
     add_sprite_clicked.setPosition(sf::Vector2f(376.f, 790.f));
+    // Hovered
+    sf::Texture add_texture_hovered;
+    if( !add_texture_hovered.loadFromFile("../assets/icons/AddIcon-hover.png"))
+        cerr << "Error On Loading ADD-Icon-hover" << endl;    
+    sf::Sprite add_sprite_hovered;
+    add_sprite_hovered.setTexture(add_texture_hovered);
+    add_sprite_hovered.setPosition(sf::Vector2f(376.f, 790.f));
 
     //End Of Adding ADD-Icon
 
@@ -46,14 +54,29 @@ void start_app()
             if (event.type == sf::Event::EventType::Closed){
                 window.close();
             }
-            if (event.type == sf::Event::EventType::TextEntered){
-                input += static_cast<char>(event.text.unicode);
-                cout << input << endl;
-            }
+            if ( event.type == sf::Event::MouseMoved ){
+                if ( add_sprite.getGlobalBounds().contains( sf::Vector2f(event.mouseMove.x - 45, event.mouseMove.y - 45) ) ) { // -45 : Image Has empty area
+                    // cout << "there" << endl;
+                    add_sprite.setTexture(add_texture_hovered);
+                } else add_sprite.setTexture(add_texture);
 
-            window.draw(back_sprite);
-            window.draw(add_sprite);
-            window.display();
+            }
+            if ( event.type == sf::Event::MouseButtonPressed ){
+                if ( event.mouseButton.button == sf::Mouse::Left){
+                    if ( add_sprite.getGlobalBounds().contains( sf::Vector2f(event.mouseButton.x - 45, event.mouseButton.y - 45) ) ) { // -45 : Image Has empty area
+                    while (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                        window.draw(back_sprite);
+                        window.draw(add_sprite_clicked);
+                        window.display();
+                    }
+                        cout << "add" << endl;
+                    }
+                }
+            }
         }
+
+        window.draw(back_sprite);
+        window.draw(add_sprite);
+        window.display();
     }
 }
