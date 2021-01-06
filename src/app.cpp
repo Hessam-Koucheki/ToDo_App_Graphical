@@ -27,6 +27,14 @@ void start_app()
     sf::Sprite add_sprite;
     add_sprite.setTexture(add_texture);
     add_sprite.setPosition(sf::Vector2f(376.f, 790.f));
+    // no-shaodw & clicked
+    sf::Texture add_texture_clicked;
+    if( !add_texture_clicked.loadFromFile("../assets/icons/AddIcon-noshadow.png"))
+        cerr << "Error On Loading ADD-Icon-noshadow" << endl;    
+    sf::Sprite add_sprite_clicked;
+    add_sprite_clicked.setTexture(add_texture_clicked);
+    add_sprite_clicked.setPosition(sf::Vector2f(376.f, 790.f));
+
     //End Of Adding ADD-Icon
 
     // Main Loop
