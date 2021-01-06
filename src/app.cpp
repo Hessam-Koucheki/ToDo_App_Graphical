@@ -42,41 +42,40 @@ void start_app()
     sf::Sprite add_sprite_hovered;
     add_sprite_hovered.setTexture(add_texture_hovered);
     add_sprite_hovered.setPosition(sf::Vector2f(376.f, 790.f));
-
     //End Of Adding ADD-Icon
 
-    // Main Loop
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::EventType::Closed){
-                window.close();
-            }
-            if ( event.type == sf::Event::MouseMoved ){
-                if ( add_sprite.getGlobalBounds().contains( sf::Vector2f(event.mouseMove.x - 45, event.mouseMove.y - 45) ) ) { // -45 : Image Has empty area
-                    // cout << "there" << endl;
-                    add_sprite.setTexture(add_texture_hovered);
-                } else add_sprite.setTexture(add_texture);
-
-            }
-            if ( event.type == sf::Event::MouseButtonPressed ){
-                if ( event.mouseButton.button == sf::Mouse::Left){
-                    if ( add_sprite.getGlobalBounds().contains( sf::Vector2f(event.mouseButton.x - 45, event.mouseButton.y - 45) ) ) { // -45 : Image Has empty area
+// Main Loop
+while (window.isOpen())
+{
+    sf::Event event;
+    while (window.pollEvent(event))
+    {   // Close Window    ?? TODO: SAY GOODBYE
+        if (event.type == sf::Event::EventType::Closed){
+            window.close();
+        }
+        //  ADD-Button :  Mouse HOVER 
+        if ( event.type == sf::Event::MouseMoved ){
+            if ( add_sprite.getGlobalBounds().contains( sf::Vector2f(event.mouseMove.x - 45, event.mouseMove.y - 45) ) ) { // -45 : Image Has empty area
+                add_sprite.setTexture(add_texture_hovered);
+            } else add_sprite.setTexture(add_texture);
+        } // End Mouse HOVER
+        //  ADD-Button :  Mouse CLICK 
+        if ( event.type == sf::Event::MouseButtonPressed ){
+            if ( event.mouseButton.button == sf::Mouse::Left){
+                if ( add_sprite.getGlobalBounds().contains( sf::Vector2f(event.mouseButton.x - 45, event.mouseButton.y - 45) ) ) { // -45 : Image Has empty area
                     while (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
                         window.draw(back_sprite);
                         window.draw(add_sprite_clicked);
                         window.display();
                     }
-                        cout << "add" << endl;
-                    }
+                    cout << "add" << endl;
                 }
             }
-        }
-
-        window.draw(back_sprite);
-        window.draw(add_sprite);
-        window.display();
+        } // End Mouse CLICK 
     }
+
+    window.draw(back_sprite);
+    window.draw(add_sprite);
+    window.display();
+}
 }
