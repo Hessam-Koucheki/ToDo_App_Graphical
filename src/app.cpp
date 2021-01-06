@@ -26,8 +26,9 @@ void start_app()
         cerr << "Error On Loading ADD-Icon" << endl;    
     sf::Sprite add_sprite;
     add_sprite.setTexture(add_texture);
+    add_sprite.setPosition(sf::Vector2f(376.f, 790.f));
     //End Of Adding ADD-Icon
-// TODO : Set Correct Place
+
     // Main Loop
     while (window.isOpen())
     {
