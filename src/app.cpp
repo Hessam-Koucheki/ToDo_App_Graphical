@@ -21,27 +21,27 @@ void start_app()
     back_sprite.setTexture(back_texture);
     // End Of Adding Background
     
-    // Add an ADD-Icon
+    // Add ADD-Icon
     sf::Texture add_texture;
-    if( !add_texture.loadFromFile("../assets/icons/AddIcon.png"))
+    if( !add_texture.loadFromFile("../assets/icons/add.png"))
         cerr << "Error On Loading ADD-Icon" << endl;    
     sf::Sprite add_sprite;
     add_sprite.setTexture(add_texture);
-    add_sprite.setPosition(sf::Vector2f(376.f, 790.f));
-    // no-shaodw & clicked
-    sf::Texture add_texture_clicked;
-    if( !add_texture_clicked.loadFromFile("../assets/icons/AddIcon-noshadow.png"))
-        cerr << "Error On Loading ADD-Icon-noshadow" << endl;    
-    sf::Sprite add_sprite_clicked;
-    add_sprite_clicked.setTexture(add_texture_clicked);
-    add_sprite_clicked.setPosition(sf::Vector2f(376.f, 790.f));
-    // Hovered
+    add_sprite.setPosition(sf::Vector2f(395, 805));
+    // Add add-icon : Hovered
     sf::Texture add_texture_hovered;
-    if( !add_texture_hovered.loadFromFile("../assets/icons/AddIcon-hover.png"))
-        cerr << "Error On Loading ADD-Icon-hover" << endl;    
+    if( !add_texture_hovered.loadFromFile("../assets/icons/add-hover.png"))
+        cerr << "Error On Loading Add-hover" << endl;    
     sf::Sprite add_sprite_hovered;
     add_sprite_hovered.setTexture(add_texture_hovered);
-    add_sprite_hovered.setPosition(sf::Vector2f(376.f, 790.f));
+    add_sprite_hovered.setPosition(sf::Vector2f(395, 805));
+    // Add add-icon : Click
+    sf::Texture add_texture_clicked;
+    if( !add_texture_clicked.loadFromFile("../assets/icons/add-click.png"))
+        cerr << "Error On Loading ADD-clicl" << endl;    
+    sf::Sprite add_sprite_clicked;
+    add_sprite_clicked.setTexture(add_texture_clicked);
+    add_sprite_clicked.setPosition(sf::Vector2f(395, 805));
     //End Of Adding ADD-Icon
 
 // Main Loop
@@ -49,20 +49,20 @@ while (window.isOpen())
 {
     sf::Event event;
     while (window.pollEvent(event))
-    {   // Close Window    ?? TODO: SAY GOODBYE
+    {   // Close Window    ?? TODO: SAY GOODBYE && style::none
         if (event.type == sf::Event::EventType::Closed){
             window.close();
         }
         //  ADD-Button :  Mouse HOVER 
         if ( event.type == sf::Event::MouseMoved ){
-            if ( add_sprite.getGlobalBounds().contains( sf::Vector2f(event.mouseMove.x - 45, event.mouseMove.y - 45) ) ) { // -45 : Image Has empty area
+            if ( add_sprite.getGlobalBounds().contains( sf::Vector2f(event.mouseMove.x, event.mouseMove.y) ) ) {
                 add_sprite.setTexture(add_texture_hovered);
             } else add_sprite.setTexture(add_texture);
         } // End Mouse HOVER
         //  ADD-Button :  Mouse CLICK 
         if ( event.type == sf::Event::MouseButtonPressed ){
             if ( event.mouseButton.button == sf::Mouse::Left){
-                if ( add_sprite.getGlobalBounds().contains( sf::Vector2f(event.mouseButton.x - 45, event.mouseButton.y - 45) ) ) { // -45 : Image Has empty area
+                if ( add_sprite.getGlobalBounds().contains( sf::Vector2f(event.mouseButton.x, event.mouseButton.y) ) ) {
                     while (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
                         window.draw(back_sprite);
                         window.draw(add_sprite_clicked);
