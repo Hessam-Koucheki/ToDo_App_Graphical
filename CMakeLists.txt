@@ -5,6 +5,7 @@ set(SOURCES
     src/main.cpp
     src/app.cpp
     src/add.cpp
+    src/task.cpp
 )
 include_directories(include)
 add_executable(app ${SOURCES})
