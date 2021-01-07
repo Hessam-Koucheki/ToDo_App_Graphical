@@ -57,7 +57,7 @@ void add()
         sf::Event event;
         std::string str;
         while (box.pollEvent(event))
-        {   // Proccess Close
+        { // Proccess Close
             if (event.type == sf::Event::EventType::Closed)
                 box.close();
             // Hanlding Entering Text
@@ -67,7 +67,7 @@ void add()
                 {
                     input += event.text.unicode;
                     text.setString(input);
-                    cout << "got input!" << endl;
+                    cout << "got input! : " << input << "\n-> " << input.length() << endl;
                 }
                 // Handling Enter
                 if (event.text.unicode == 13)
@@ -81,23 +81,21 @@ void add()
                     input = tmp;
                     // cout << "Backspace" << endl;
                 }
-            } // End Of Text Handling 
+            } // End Of Text Handling
             // Star Icon : HOVER
             if (event.type == sf::Event::MouseMoved)
-            {   // Hover But not already favourite
-                if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y))
-                    && is_favourite == false)
+            { // Hover But not already favourite
+                if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)) && is_favourite == false)
                 {
                     star_sprite.setTexture(star_texture_hovered);
                 }
                 // Hover But already is favourite
-                else if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y))
-                    && is_favourite == true)
+                else if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)) && is_favourite == true)
                 {
                     star_sprite.setTexture(star_texture_hovered_true);
                 }
                 // Not Hovered
-                else 
+                else
                     star_sprite.setTexture(star_texture);
             } // End Star Icon : HOVER
 
@@ -105,17 +103,15 @@ void add()
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
-                {   // Make Favourite
-                    if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))
-                        && is_favourite == false)
+                { // Make Favourite
+                    if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)) && is_favourite == false)
                     {
                         star_texture.loadFromFile("../assets/icons/star-on.png");
                         is_favourite = true;
                         cout << "Favourite!!" << endl;
                     }
                     // Delete Favourite
-                    else if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))
-                        && is_favourite == true)
+                    else if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)) && is_favourite == true)
                     {
                         star_texture.loadFromFile("../assets/icons/star-off.png");
                         is_favourite = false;
@@ -123,7 +119,6 @@ void add()
                     }
                 }
             } // End Star icon : Click
-
 
             // Submit Icon : HOVER
             if (event.type == sf::Event::MouseMoved)
@@ -133,7 +128,7 @@ void add()
                     submit_sprite.setTexture(submit_texture_hovered);
                 }
                 // Not Hovered
-                else 
+                else
                     submit_sprite.setTexture(submit_texture);
             } // End Submit : Hover
             // Submit icon : Click
@@ -158,7 +153,7 @@ void add()
                     cancel_sprite.setTexture(cancel_texture_hovered);
                 }
                 // Not Hovered
-                else 
+                else
                     cancel_sprite.setTexture(cancel_texture);
             } // End cancel : Hover
             // cancel icon : Click
@@ -174,9 +169,8 @@ void add()
                     }
                 }
             } // End cancel : Click
-
         }
-        
+
         // Prepairing Text
         sf::Font font;
         sf::Color color;

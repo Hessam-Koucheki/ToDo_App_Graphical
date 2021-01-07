@@ -4,7 +4,8 @@
 
 using namespace std;
 
-int main(){
+int main()
+{
     start_app();
     return 0;
 }
