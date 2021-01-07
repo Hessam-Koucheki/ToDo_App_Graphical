@@ -6,6 +6,7 @@
 #include "add.hpp"
 using std::cout;
 using std::endl;
+
 void add(){
     sf::RenderWindow box(sf::VideoMode(1000, 300), "Type Something", sf::Style::Close);
     // Add a Background
@@ -15,7 +16,7 @@ void add(){
     sf::Sprite back_sprite;
     back_sprite.setTexture(back_texture);
     // End Of Adding Background
-    std::string input = ""; 
+    std::string input = "", tmp = ""; 
 
     sf::Text text;
     text.setString("Hello");
@@ -28,34 +29,37 @@ void add(){
         if (event.type == sf::Event::EventType::Closed)
                 box.close();
         if (event.type == sf::Event::TextEntered){
-            // Handle ASCII characters only
-            if (event.text.unicode <= 128){
+            // Handle ASCII characters only Except Enter:13 & Backsapce:8 
+            if (event.text.unicode <= 128 && event.text.unicode != 8 && event.text.unicode != 13){
                 input += event.text.unicode;
                 text.setString(input);
                 cout << "got input!" << endl;
-                if ( event.text.unicode == 13 ) cout << "enter!!" << endl;
-            } if ( event.text.unicode == 10 ){
-                box.draw(text);
-                cout << "Inputing finished" << endl;
+            } 
+            // Handling Enter
+            if ( event.text.unicode == 13 ) 
+                cout << "enter!!" << endl;
+            // Handling Backsapce
+            if ( event.text.unicode == 8 ){
+                cout << "Backspaceeee" << endl;
+                // input.erase(input.end());
+                text.setString(tmp);
+                input = tmp;
+                cout << "Backspace" << endl;
             }
-        } // TODO : Getting and Drawing Text into the box
-    
-
-      
-        // if (event.type == sf::Event::TextEntered){
-        // }
-
+        } // TODO : Add Star Icon to favourite 
     }
+
+
     sf::Font font;
+    sf::Color color;
     font.loadFromFile("../assets/fonts/Poppins-Regular.ttf");
     text.setFont(font);
-    // text.setColor(sf::Color::Red);
-    sf::Color color;
     text.setFillColor(sf::Color::Black);
     text.setCharacterSize(22);
     text.setPosition(sf::Vector2f(80, 160));
     box.clear();
     box.draw(back_sprite);
+    tmp = input.substr(0, input.length() - 1);// Keeping Last input for usage in backsapce
     box.draw(text);
     box.display();
   }
