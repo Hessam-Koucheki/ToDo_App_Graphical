@@ -18,9 +18,13 @@ void add()
     back_sprite.setTexture(back_texture);
     // End Of Adding Background
     // Add Star Icon
-    sf::Texture star_texture;
+    sf::Texture star_texture, star_texture_hovered, star_texture_hovered_true;
     if (!star_texture.loadFromFile("../assets/icons/star-off.png"))
         std::cout << "Error On Loading Star Icon" << std::endl;
+    if (!star_texture_hovered.loadFromFile("../assets/icons/star-hover.png"))
+        std::cout << "Error On Loading Star-hover Icon" << std::endl;
+    if (!star_texture_hovered_true.loadFromFile("../assets/icons/star-hover-true.png"))
+        std::cout << "Error On Loading Star-hover-true Icon" << std::endl;
     sf::Sprite star_sprite;
     star_sprite.setTexture(star_texture);
     bool is_favourite = false;
@@ -60,12 +64,43 @@ void add()
                     // cout << "Backspace" << endl;
                 }
             }
+            // Star Icon : HOVER
+            if (event.type == sf::Event::MouseMoved)
+            {   // Hover But not already favourite
+                if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y))
+                    && is_favourite == false)
+                {
+                    star_sprite.setTexture(star_texture_hovered);
+                }
+                // Hover But already is favourite
+                else if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y))
+                    && is_favourite == true)
+                {
+                    star_sprite.setTexture(star_texture_hovered_true);
+                }
+                // Not Hovered
+                else 
+                    star_sprite.setTexture(star_texture);
+            }
+            // Star icon : Click
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x - 45, event.mouseButton.y - 45)))
+                {   // Make Favourite
+                    if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))
+                        && is_favourite == false)
                     {
+                        star_texture.loadFromFile("../assets/icons/star-on.png");
+                        is_favourite = true;
+                        cout << "Favourite!!" << endl;
+                    }
+                    // Delete Favourite
+                    else if (star_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))
+                        && is_favourite == true)
+                    {
+                        star_texture.loadFromFile("../assets/icons/star-off.png");
+                        is_favourite = false;
+                        cout << "UnFavourite!!" << endl;
                     }
                 }
             }
@@ -81,10 +116,12 @@ void add()
         tmp = input.substr(0, input.length() - 1); // Keeping Last input for usage in backsapce
         // End of Prepairing Text
         // Prepairing Star Icon
+        star_sprite.setPosition(885, 140);
         // End of Prepairing Star Icon
 
         box.clear();
         box.draw(back_sprite);
+        box.draw(star_sprite);
         box.draw(text);
         box.display();
     }
