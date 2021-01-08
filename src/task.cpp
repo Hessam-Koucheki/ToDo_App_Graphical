@@ -3,8 +3,8 @@
 
 void Task::set_task(string task)
 {
-    if (task.length() >= 60)
-        strcpy(this->task, (task.substr(0, 59)).c_str());
+    if (task.length() >= 30)
+        strcpy(this->task, (task.substr(0, 29)).c_str());
     else
         strcpy(this->task, task.c_str());
 }

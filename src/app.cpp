@@ -46,7 +46,15 @@ void start_app()
     add_sprite_clicked.setTexture(add_texture_clicked);
     add_sprite_clicked.setPosition(sf::Vector2f(add_icon_x, add_icon_y));
     //End Of Adding ADD-Icon
-
+    sf::Text te;
+    sf::Font font;
+    sf::Color color;
+    font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
+    te.setFont(font);
+    te.setFillColor(sf::Color::Black);
+    te.setCharacterSize(22);
+    te.setPosition(sf::Vector2f(30, 160));
+    te.setString("123456789012345678901234567890");
     // Main Loop
     while (window.isOpen())
     {
@@ -89,6 +97,7 @@ void start_app()
 
         window.draw(back_sprite);
         window.draw(add_sprite);
+        window.draw(te);
         window.display();
     }
 }
