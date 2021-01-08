@@ -63,9 +63,7 @@ void add()
         sf::Event event;
         std::string str;
         while (box.pollEvent(event))
-        { // Proccess Close
-            if (event.type == sf::Event::EventType::Closed)
-                box.close();
+        {
             // Hanlding Entering Text
             if (event.type == sf::Event::TextEntered)
             {                                    // Handle ASCII characters only Except Enter:13 & Backsapce:8
@@ -79,7 +77,7 @@ void add()
                     cout << "got input! : " << input << "\n-> " << input.length() << endl;
                 }
                 // Handling Enter
-                if (event.text.unicode == 13)
+                if (event.text.unicode == 13 && input.length() != 0)
                 {
                     task.set_task(input);
                     task.set_favourite(is_favourite);
@@ -150,7 +148,7 @@ void add()
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    if (submit_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    if (submit_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)) && input.length() != 0)
                     {
                         task.set_task(input);
                         task.set_favourite(is_favourite);

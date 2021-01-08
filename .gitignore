@@ -2,3 +2,4 @@
 build/*
 assets/Others
 .vscode
+db.dat
