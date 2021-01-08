@@ -9,7 +9,8 @@ using std::endl;
 using std::string;
 void add()
 {
-    sf::RenderWindow box(sf::VideoMode(1000, 300), "Type Something", sf::Style::Close);
+    sf::RenderWindow box(sf::VideoMode(1000, 300), "Type Something", sf::Style::None);
+    
     // Add a Background
     sf::Texture back_texture;
     if (!back_texture.loadFromFile("../assets/images/add_text.png"))
