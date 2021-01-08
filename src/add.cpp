@@ -3,14 +3,19 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+
 #include "add.hpp"
+#include "task.hpp"
+#include "add_to_file.hpp"
+
 using std::cout;
 using std::endl;
 using std::string;
+
 void add()
 {
     sf::RenderWindow box(sf::VideoMode(1000, 300), "Type Something", sf::Style::None);
-    
+
     // Add a Background
     sf::Texture back_texture;
     if (!back_texture.loadFromFile("../assets/images/add_text.png"))
@@ -28,7 +33,6 @@ void add()
         cout << "Error On Loading Star-hover-true Icon" << endl;
     sf::Sprite star_sprite;
     star_sprite.setTexture(star_texture);
-    bool is_favourite = false;
     // End of Adding Star Icon
     // Add Submit Button
     sf::Texture submit_texture, submit_texture_hovered;
@@ -50,7 +54,8 @@ void add()
     // End of Adding cancel Button
     string input = "", tmp = "";
     sf::Text text;
-
+    Task task;
+    bool is_favourite = false;
     // Main Loop
     while (box.isOpen())
     {
@@ -63,8 +68,11 @@ void add()
                 box.close();
             // Hanlding Entering Text
             if (event.type == sf::Event::TextEntered)
-            { // Handle ASCII characters only Except Enter:13 & Backsapce:8
-                if (event.text.unicode <= 128 && event.text.unicode != 8 && event.text.unicode != 13)
+            {                                    // Handle ASCII characters only Except Enter:13 & Backsapce:8
+                if (event.text.unicode <= 128    // Be an ascii char
+                    && event.text.unicode != 8   // Backspace
+                    && event.text.unicode != 13  // Enter
+                    && event.text.unicode != 59) // semicolon :: used in file handling
                 {
                     input += event.text.unicode;
                     text.setString(input);
@@ -73,7 +81,12 @@ void add()
                 // Handling Enter
                 if (event.text.unicode == 13)
                 {
+                    task.set_task(input);
+                    task.set_favourite(is_favourite);
+                    task.set_state(false);
+                    add_to_file(task);
                     cout << "enter!!" << endl;
+                    box.close();
                 }
                 // Handling Backsapce
                 if (event.text.unicode == 8)
@@ -139,8 +152,11 @@ void add()
                 {
                     if (submit_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
+                        task.set_task(input);
+                        task.set_favourite(is_favourite);
+                        task.set_state(false);
+                        add_to_file(task);
                         cout << "Submited!!" << endl;
-                        // SAVE
                         box.close();
                     }
                 }
