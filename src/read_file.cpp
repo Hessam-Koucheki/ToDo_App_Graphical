@@ -13,7 +13,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-void read_file(vector<Task> vec)
+void read_file(vector<Task> & vec)
 {
     ifstream in("../db.dat", std::ios::in);
     Task tmp_task;

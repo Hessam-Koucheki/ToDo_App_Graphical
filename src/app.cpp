@@ -49,29 +49,26 @@ void start_app()
     add_sprite_clicked.setTexture(add_texture_clicked);
     add_sprite_clicked.setPosition(sf::Vector2f(add_icon_x, add_icon_y));
     //End Of Adding ADD-Icon
-    sf::Text te[18];
+    vector<Task> my_vec;
+
+    sf::Text task_array[18];
     sf::Font font;
     sf::Color color;
     font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
-    te[0].setFont(font);
-    te[0].setFillColor(sf::Color::Black);
-    te[0].setCharacterSize(24);
-    te[0].setPosition(sf::Vector2f(22.5, 215));
-    te[0].setString("123456789012345678901234567890");
-    font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
-    te[1].setFont(font);
-    te[1].setFillColor(sf::Color::Black);
-    te[1].setCharacterSize(24);
-    te[1].setPosition(sf::Vector2f(22.5, 250));
-    te[1].setString("123456789012345678901234567890");
 
-    vector<Task> my_vec;
-//  TODO : READ FROM FILE AND SHOW TASKS IN THE MAIN WINDOW
-    read_file(my_vec);
+        read_file(my_vec);
 
     // Main Loop
     while (window.isOpen())
     {
+        for (size_t i = 0; i < my_vec.size(); i++)
+        {
+            task_array[i].setFont(font);
+            task_array[i].setFillColor(sf::Color::Black);
+            task_array[i].setCharacterSize(24);
+            task_array[i].setPosition(sf::Vector2f(22.5, 215 + (35*i)));
+            task_array[i].setString(my_vec[i].get_task());
+        }
         sf::Event event;
         while (window.pollEvent(event))
         { // Close Window    ?? TODO: SAY GOODBYE && style::none
@@ -111,8 +108,10 @@ void start_app()
 
         window.draw(back_sprite);
         window.draw(add_sprite);
-        window.draw(te[0]);
-        window.draw(te[1]);
+        for (size_t i = 0; i < my_vec.size(); i++)
+        {
+            window.draw(task_array[i]);
+        }
         window.display();
     }
 }
