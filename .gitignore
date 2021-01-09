@@ -1,7 +1,6 @@
 
 .gitignore
-build/*
+build
 assets/Others
 .vscode
-db.dat
 db.dat
