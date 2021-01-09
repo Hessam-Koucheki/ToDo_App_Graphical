@@ -49,6 +49,12 @@ void start_app()
     add_sprite_clicked.setTexture(add_texture_clicked);
     add_sprite_clicked.setPosition(sf::Vector2f(add_icon_x, add_icon_y));
     //End Of Adding ADD-Icon
+    // Add favorite.png
+    sf::Texture favorite_texture;
+    if (!favorite_texture.loadFromFile("../assets/icons/favorite.png"))
+        cerr << "Error On Loading favorite Icon" << endl;
+    sf::Sprite favorite_sprite[18];
+
     // vector to save read contents from file
     vector<Task> my_vec;
     // to display in sfml
@@ -56,7 +62,9 @@ void start_app()
     sf::Font font;
     sf::Color color;
     font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
+    read_file(my_vec);
 
+    cout << (* my_vec.rbegin()).get_task() << endl;
     // Main Loop
     while (window.isOpen())
     {
@@ -66,7 +74,7 @@ void start_app()
             task_array[i].setFont(font);
             task_array[i].setFillColor(sf::Color::Black);
             task_array[i].setCharacterSize(24);
-            task_array[i].setPosition(sf::Vector2f(22.5, 215 + (35*i)));
+            task_array[i].setPosition(sf::Vector2f(50, 215 + (35 * i)));
             task_array[i].setString(my_vec[i].get_task());
         }
         sf::Event event;
@@ -107,10 +115,18 @@ void start_app()
         }
         window.draw(back_sprite);
         window.draw(add_sprite);
-        for (size_t i = 0; i < my_vec.size(); i++) 
+        size_t i;
+        for (i = 0; i < my_vec.size() - 1; i++) // -1  :  last line in file is '\n'
         {
+            if (my_vec[i].get_favourite() == true)
+            {
+                favorite_sprite[i].setTexture(favorite_texture);
+                favorite_sprite[i].setPosition(sf::Vector2f(20, 218 + (35 * i)));
+                window.draw(favorite_sprite[i]);
+            }
             window.draw(task_array[i]);
         }
+
         window.display();
     }
 }
