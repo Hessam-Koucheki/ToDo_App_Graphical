@@ -1,12 +1,15 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
+#include "read_file.hpp"
 #include "app.hpp"
 #include "add.hpp"
+#include "task.hpp"
 
 using namespace std;
 
@@ -46,15 +49,26 @@ void start_app()
     add_sprite_clicked.setTexture(add_texture_clicked);
     add_sprite_clicked.setPosition(sf::Vector2f(add_icon_x, add_icon_y));
     //End Of Adding ADD-Icon
-    sf::Text te;
+    sf::Text te[18];
     sf::Font font;
     sf::Color color;
     font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
-    te.setFont(font);
-    te.setFillColor(sf::Color::Black);
-    te.setCharacterSize(22);
-    te.setPosition(sf::Vector2f(30, 160));
-    te.setString("123456789012345678901234567890");
+    te[0].setFont(font);
+    te[0].setFillColor(sf::Color::Black);
+    te[0].setCharacterSize(24);
+    te[0].setPosition(sf::Vector2f(22.5, 215));
+    te[0].setString("123456789012345678901234567890");
+    font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
+    te[1].setFont(font);
+    te[1].setFillColor(sf::Color::Black);
+    te[1].setCharacterSize(24);
+    te[1].setPosition(sf::Vector2f(22.5, 250));
+    te[1].setString("123456789012345678901234567890");
+
+    vector<Task> my_vec;
+//  TODO : READ FROM FILE AND SHOW TASKS IN THE MAIN WINDOW
+    read_file(my_vec);
+
     // Main Loop
     while (window.isOpen())
     {
@@ -97,7 +111,8 @@ void start_app()
 
         window.draw(back_sprite);
         window.draw(add_sprite);
-        window.draw(te);
+        window.draw(te[0]);
+        window.draw(te[1]);
         window.display();
     }
 }
