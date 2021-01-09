@@ -15,6 +15,6 @@ void add_to_file(const Task &task)
         out.open("../db.dat", std::ios::out | std::ios::app);
     }
 
-    out << task.get_task() << ";" << task.get_favourite() << task.get_state() << endl;
+    out << task.get_task() << ";" << task.get_favourite() << ' ' << task.get_state() << endl;
     out.close();
 }
