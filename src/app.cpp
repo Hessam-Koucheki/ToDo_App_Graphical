@@ -49,18 +49,18 @@ void start_app()
     add_sprite_clicked.setTexture(add_texture_clicked);
     add_sprite_clicked.setPosition(sf::Vector2f(add_icon_x, add_icon_y));
     //End Of Adding ADD-Icon
+    // vector to save read contents from file
     vector<Task> my_vec;
-
+    // to display in sfml
     sf::Text task_array[18];
     sf::Font font;
     sf::Color color;
     font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
 
-        read_file(my_vec);
-
     // Main Loop
     while (window.isOpen())
     {
+        read_file(my_vec);
         for (size_t i = 0; i < my_vec.size(); i++)
         {
             task_array[i].setFont(font);
@@ -105,10 +105,9 @@ void start_app()
                 }
             } // End Mouse CLICK
         }
-
         window.draw(back_sprite);
         window.draw(add_sprite);
-        for (size_t i = 0; i < my_vec.size(); i++)
+        for (size_t i = 0; i < my_vec.size(); i++) 
         {
             window.draw(task_array[i]);
         }
