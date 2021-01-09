@@ -28,7 +28,8 @@ bool search(const string t ,const vector<Task> & v ){
 
 void read_file(vector<Task> & vec)
 {
-    ifstream in("../db.dat", std::ios::in);
+    ifstream in;
+    in.open("../db.dat", std::ios::in | std::ios::app);
     Task tmp_task;
     string task;
     bool fav, state;
