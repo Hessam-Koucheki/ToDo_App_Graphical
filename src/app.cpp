@@ -135,7 +135,7 @@ void start_app()
                     {
                         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
                             my_vec.erase( my_vec.begin() + mouse_pos );
-                            add(my_vec);
+                            add(my_vec, my_vec[mouse_pos].get_task());
                             add_to_file(my_vec);
                             cout << "EDIT ICON" << endl;
                         } 

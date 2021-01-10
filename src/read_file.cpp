@@ -36,16 +36,17 @@ void read_file(vector<Task> & vec)
 
     while (!in.eof())
     {
+        // skip if there is an empty line
         getline(in, task, ';');
         if( task == "" ){
             continue;
         }
         if ( search(task, vec) == false ){
-            tmp_task.set_task(task);
-            in >> fav >> state;
+            tmp_task.set_task(task); // reads TASK from file
+            in >> fav >> state; // reads first-int(fav) and then second-int(is_done)
             tmp_task.set_favourite(fav);
             tmp_task.set_state(state);
-            vec.push_back(tmp_task);
+            vec.push_back(tmp_task); // adds task to the vector
             in.ignore();
         } else {
             in.ignore(4);  // Ignore :      ; int int '\n 

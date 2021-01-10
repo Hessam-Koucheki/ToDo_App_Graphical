@@ -14,7 +14,7 @@ using std::endl;
 using std::string;
 using std::vector;
 
-void add(vector<Task> & vec)
+void add(vector<Task> & vec, string st)
 {
     sf::RenderWindow box(sf::VideoMode(1000, 300), "Type Something", sf::Style::None);
 
@@ -54,8 +54,9 @@ void add(vector<Task> & vec)
     sf::Sprite cancel_sprite;
     cancel_sprite.setTexture(cancel_texture);
     // End of Adding cancel Button
-    string input = "", tmp = "";
+    string input = st, tmp = st;
     sf::Text text;
+    text.setString(st);
     Task task;
     bool is_favourite = false;
     // Main Loop
