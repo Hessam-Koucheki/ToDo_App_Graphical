@@ -37,6 +37,9 @@ void read_file(vector<Task> & vec)
     while (!in.eof())
     {
         getline(in, task, ';');
+        if( task == "" ){
+            continue;
+        }
         if ( search(task, vec) == false ){
             tmp_task.set_task(task);
             in >> fav >> state;
