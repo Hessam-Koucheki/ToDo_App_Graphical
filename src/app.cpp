@@ -54,6 +54,11 @@ void start_app()
     if (!favorite_texture.loadFromFile("../assets/icons/favorite.png"))
         cerr << "Error On Loading favorite Icon" << endl;
     sf::Sprite favorite_sprite[18];
+    // Add edit.png
+    sf::Texture edit_texture;
+    if (!edit_texture.loadFromFile("../assets/icons/edit.png"))
+        cerr << "Error On Loading edit Icon" << endl;
+    sf::Sprite edit_sprite[18];
 
     // vector to save read contents from file
     vector<Task> my_vec;
@@ -63,7 +68,8 @@ void start_app()
     sf::Color color;
     font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
     read_file(my_vec);
-
+    size_t mouse_pos = NULL;
+    cout << "Mouse: " << mouse_pos << endl;
     cout << (* my_vec.rbegin()).get_task() << endl;
     // Main Loop
     while (window.isOpen())
@@ -84,16 +90,29 @@ void start_app()
             {
                 window.close();
             }
-            //  ADD-Button :  Mouse HOVER
+            //  Mouse Moved
             if (event.type == sf::Event::MouseMoved)
             {
+                // Add Icon - Hover
                 if (add_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
                 {
                     add_sprite.setTexture(add_texture_hovered);
                 }
                 else
                     add_sprite.setTexture(add_texture);
-            } // End Mouse HOVER
+                // End Add Icon : Hover
+                // Edit Icon
+                for (size_t i = 0; i < my_vec.size() - 1; i++)
+                {
+                    if (task_array[i].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
+                    {
+                        edit_sprite[i].setTexture(edit_texture);
+                        edit_sprite[i].setPosition(sf::Vector2f(510, 218 + (35 * i)));
+                        mouse_pos = i;
+                    }
+                }
+
+            } // End Mouse Moved
             //  ADD-Button :  Mouse CLICK
             if (event.type == sf::Event::MouseButtonPressed)
             {
@@ -116,7 +135,7 @@ void start_app()
         window.draw(back_sprite);
         window.draw(add_sprite);
         size_t i;
-        for (i = 0; i < my_vec.size() - 1; i++) // -1  :  last line in file is '\n'
+        for (i = 0; i < my_vec.size(); i++)
         {
             if (my_vec[i].get_favourite() == true)
             {
@@ -126,7 +145,7 @@ void start_app()
             }
             window.draw(task_array[i]);
         }
-
+        window.draw(edit_sprite[mouse_pos]);
         window.display();
     }
 }
