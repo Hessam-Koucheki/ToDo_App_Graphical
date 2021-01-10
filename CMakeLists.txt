@@ -8,7 +8,6 @@ set(SOURCES
     src/task.cpp
     src/add_to_file.cpp
     src/read_file.cpp
-    src/add_to_vec.cpp
 )
 include_directories(include)
 add_executable(app ${SOURCES})
