@@ -2,19 +2,23 @@
 #include "../include/task.hpp"
 #include <iostream>
 #include <fstream>
-
+#include <vector>
 using std::endl;
+using std::vector;
 
-void add_to_file(const Task &task)
+void add_to_file(vector<Task> &vec)
 {
     std::ofstream out("../db.dat", std::ios::out | std::ios::app);
-    if ( !out.is_open() ){
+    if (!out.is_open())
+    {
         out.open("../db.dat", std::ios::out | std::ios::app);
-    } else {
+    }
+    else
+    {
         out.close();
         out.open("../db.dat", std::ios::out | std::ios::app);
     }
-
-    out << task.get_task() << ";" << task.get_favourite() << ' ' << task.get_state() << endl;
+    for (auto const &task : vec)
+        out << task.get_task() << ";" << task.get_favourite() << ' ' << task.get_state() << endl;
     out.close();
 }
