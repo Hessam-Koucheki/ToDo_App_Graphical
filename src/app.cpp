@@ -68,9 +68,8 @@ void start_app()
     sf::Color color;
     font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
     read_file(my_vec);
-    size_t mouse_pos = NULL;
+    size_t mouse_pos;
     cout << "Mouse: " << mouse_pos << endl;
-    cout << (* my_vec.rbegin()).get_task() << endl;
     // Main Loop
     while (window.isOpen())
     {
@@ -102,9 +101,10 @@ void start_app()
                     add_sprite.setTexture(add_texture);
                 // End Add Icon : Hover
                 // Edit Icon
-                for (size_t i = 0; i < my_vec.size() - 1; i++)
+                for (size_t i = 0; i < my_vec.size(); i++)
                 {
-                    if (task_array[i].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
+                    if (task_array[i].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y))
+                        && my_vec.size() > 0)
                     {
                         edit_sprite[i].setTexture(edit_texture);
                         edit_sprite[i].setPosition(sf::Vector2f(510, 218 + (35 * i)));
