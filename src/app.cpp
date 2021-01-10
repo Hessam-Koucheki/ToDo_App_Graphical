@@ -131,9 +131,14 @@ void start_app()
                         add(my_vec);
                     } // End Click on Add Icon
                     // click on Edit Icon
-                    if (edit_sprite->getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
+                    if (edit_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
-
+                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                            my_vec.erase( my_vec.begin() + mouse_pos );
+                            add(my_vec);
+                            add_to_file(my_vec);
+                            cout << "EDIT ICON" << endl;
+                        } 
                     }
                 }
             } // End Mouse CLICK
