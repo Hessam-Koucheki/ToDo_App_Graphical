@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
@@ -11,8 +12,9 @@
 using std::cout;
 using std::endl;
 using std::string;
+using std::vector;
 
-void add()
+void add(vector<Task> & vec)
 {
     sf::RenderWindow box(sf::VideoMode(1000, 300), "Type Something", sf::Style::None);
 
@@ -82,7 +84,7 @@ void add()
                     task.set_task(input);
                     task.set_favourite(is_favourite);
                     task.set_state(false);
-                    add_to_file(task);
+                    vec.push_back(task);
                     cout << "enter!!" << endl;
                     box.close();
                 }
@@ -153,7 +155,7 @@ void add()
                         task.set_task(input);
                         task.set_favourite(is_favourite);
                         task.set_state(false);
-                        add_to_file(task);
+                        vec.push_back(task);
                         cout << "Submited!!" << endl;
                         box.close();
                     }

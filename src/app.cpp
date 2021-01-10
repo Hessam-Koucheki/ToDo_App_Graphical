@@ -10,6 +10,7 @@
 #include "app.hpp"
 #include "add.hpp"
 #include "task.hpp"
+#include "add_to_file.hpp"
 
 using namespace std;
 
@@ -87,6 +88,7 @@ void start_app()
         { // Close Window    ?? TODO: SAY GOODBYE && style::none
             if (event.type == sf::Event::EventType::Closed)
             {
+                add_to_file(my_vec);
                 window.close();
             }
             //  Mouse Moved
@@ -103,21 +105,20 @@ void start_app()
                 // Edit Icon
                 for (size_t i = 0; i < my_vec.size(); i++)
                 {
-                    if (task_array[i].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y))
-                        && my_vec.size() > 0)
+                    if (task_array[i].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)) && my_vec.size() > 0)
                     {
                         edit_sprite[i].setTexture(edit_texture);
                         edit_sprite[i].setPosition(sf::Vector2f(510, 218 + (35 * i)));
                         mouse_pos = i;
                     }
-                }
-
-            } // End Mouse Moved
+                } // End Edit Icon
+            }     // End Mouse Moved
             //  ADD-Button :  Mouse CLICK
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
+                    // Click On Add Icon
                     if (add_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
                         while (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -127,7 +128,12 @@ void start_app()
                             window.display();
                         }
                         cout << "add" << endl;
-                        add();
+                        add(my_vec);
+                    } // End Click on Add Icon
+                    // click on Edit Icon
+                    if (edit_sprite->getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
+                    {
+
                     }
                 }
             } // End Mouse CLICK

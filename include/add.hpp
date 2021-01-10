@@ -1,3 +1,5 @@
 #pragma once
+#include <vector>
+#include "task.hpp"
 
-void add();
+void add(std::vector<Task> &);
