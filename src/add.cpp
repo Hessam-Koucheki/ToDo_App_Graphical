@@ -14,7 +14,7 @@ using std::endl;
 using std::string;
 using std::vector;
 
-void add(vector<Task> & vec, string st)
+void add(vector<Task> &vec, string st)
 {
     sf::RenderWindow box(sf::VideoMode(1000, 300), "Type Something", sf::Style::None);
 
@@ -59,6 +59,8 @@ void add(vector<Task> & vec, string st)
     text.setString(st);
     Task task;
     bool is_favourite = false;
+    string what_edited = st;
+
     // Main Loop
     while (box.isOpen())
     {
@@ -97,6 +99,7 @@ void add(vector<Task> & vec, string st)
                     // cout << "Backspace" << endl;
                 }
             } // End Of Text Handling
+
             // Star Icon : HOVER
             if (event.type == sf::Event::MouseMoved)
             { // Hover But not already favourite
@@ -153,9 +156,27 @@ void add(vector<Task> & vec, string st)
                 {
                     if (submit_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)) && input.length() != 0)
                     {
+                        // search for the current task and replace it
+                        for (size_t i = 0; i < vec.size(); i++)
+                        {
+                            if (what_edited == vec[i].get_task())
+                            {
+                                task.set_task(input);
+                                task.set_favourite(is_favourite);
+                                task.set_state(false);
+                                vec.erase(vec.begin() + i);
+                                vec.insert(vec.begin() + i, task);
+                                cout << "Submited!!" << endl;
+                                box.close();
+                                return;
+                            }
+                        }
+
                         task.set_task(input);
                         task.set_favourite(is_favourite);
                         task.set_state(false);
+                        // vec.erase(vec.begin() + found);
+                        // vec.insert(vec.begin() + found, task);
                         vec.push_back(task);
                         cout << "Submited!!" << endl;
                         box.close();
@@ -182,6 +203,8 @@ void add(vector<Task> & vec, string st)
                     if (cancel_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
                         cout << "cancel!!" << endl;
+                        cout << "Task : " << input << endl;
+                        write_file(vec);
                         // SAVE
                         box.close();
                     }

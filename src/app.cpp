@@ -133,7 +133,6 @@ void start_app()
                     if (edit_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
                         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-                            my_vec.erase( my_vec.begin() + mouse_pos );
                             add(my_vec, my_vec[mouse_pos].get_task());
                             write_file(my_vec);
                             cout << "EDIT ICON" << endl;
