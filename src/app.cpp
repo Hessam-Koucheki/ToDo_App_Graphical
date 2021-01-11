@@ -12,6 +12,8 @@
 #include "task.hpp"
 #include "write_file.hpp"
 
+#define TASKS_CAPACITY 36
+
 using namespace std;
 
 void start_app()
@@ -28,7 +30,7 @@ void start_app()
     // End Of Adding Background
 
     // Add ADD-Icon
-    int add_icon_x = 420, add_icon_y = 835;
+    int add_icon_x = 1450, add_icon_y = 835;
     sf::Texture add_texture;
     if (!add_texture.loadFromFile("../assets/icons/add.png"))
         cerr << "Error On Loading ADD-Icon" << endl;
@@ -54,25 +56,30 @@ void start_app()
     sf::Texture favorite_texture;
     if (!favorite_texture.loadFromFile("../assets/icons/favorite.png"))
         cerr << "Error On Loading favorite Icon" << endl;
-    sf::Sprite favorite_sprite[18];
+    sf::Sprite favorite_sprite[TASKS_CAPACITY];
+    // Add favorite_no.png
+    sf::Texture favorite_no_texture;
+    if (!favorite_no_texture.loadFromFile("../assets/icons/favorite-no.png"))
+        cerr << "Error On Loading favorite_no Icon" << endl;
+    sf::Sprite favorite_no_sprite[TASKS_CAPACITY];
     // Add edit.png
     sf::Texture edit_texture;
     if (!edit_texture.loadFromFile("../assets/icons/edit.png"))
         cerr << "Error On Loading edit Icon" << endl;
-    sf::Sprite edit_sprite[18];
+    sf::Sprite edit_sprite[TASKS_CAPACITY];
     // Add delete Button
     sf::Texture delete_texture, delete_texture_hovered;
     if (!delete_texture.loadFromFile("../assets/icons/delete.png"))
         cout << "Error On Loading delete Icon" << endl;
     if (!delete_texture_hovered.loadFromFile("../assets/icons/delete-hover.png"))
         cout << "Error On Loading delete-hover Icon" << endl;
-    sf::Sprite delete_sprite[18];
+    sf::Sprite delete_sprite[TASKS_CAPACITY];
     // End of Adding delete Button
 
     // vector to save read contents from file
     vector<Task> my_vec;
     // to display in sfml
-    sf::Text task_array[18];
+    sf::Text task_array[TASKS_CAPACITY];
     sf::Font font;
     sf::Color color;
     font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
@@ -82,13 +89,25 @@ void start_app()
     while (window.isOpen())
     {
         read_file(my_vec);
+        // Display Tasks
         for (size_t i = 0; i < my_vec.size(); i++)
         {
-            task_array[i].setFont(font);
-            task_array[i].setFillColor(sf::Color::Black);
-            task_array[i].setCharacterSize(24);
-            task_array[i].setPosition(sf::Vector2f(50, 215 + (35 * i)));
-            task_array[i].setString(my_vec[i].get_task());
+            if (i % 2 == 0)
+            {
+                task_array[i].setFont(font);
+                task_array[i].setFillColor(sf::Color::Black);
+                task_array[i].setCharacterSize(24);
+                task_array[i].setPosition(sf::Vector2f(50, 215 + (17 * i)));
+                task_array[i].setString(my_vec[i].get_task());
+            }
+            else
+            {
+                task_array[i].setFont(font);
+                task_array[i].setFillColor(sf::Color::Black);
+                task_array[i].setCharacterSize(24);
+                task_array[i].setPosition(sf::Vector2f(50 + 807, 215 + (17 * (i - 1))));
+                task_array[i].setString(my_vec[i].get_task());
+            }
         }
         sf::Event event;
         while (window.pollEvent(event))
@@ -114,11 +133,22 @@ void start_app()
                 {
                     if (task_array[i].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)) && my_vec.size() > 0)
                     {
-                        edit_sprite[i].setTexture(edit_texture);
-                        edit_sprite[i].setPosition(sf::Vector2f(510, 218 + (35 * i)));
-                        mouse_pos = i;
-                        delete_sprite[i].setTexture(delete_texture);
-                        delete_sprite[i].setPosition(sf::Vector2f(485, 217 + (35 * i)));
+                        if (i % 2 == 0)
+                        {
+                            edit_sprite[i].setTexture(edit_texture);
+                            edit_sprite[i].setPosition(sf::Vector2f(785, 218 + (17 * i)));
+                            mouse_pos = i;
+                            delete_sprite[i].setTexture(delete_texture);
+                            delete_sprite[i].setPosition(sf::Vector2f(750, 219 + (17 * i)));
+                        }
+                        else
+                        {
+                            edit_sprite[i].setTexture(edit_texture);
+                            edit_sprite[i].setPosition(sf::Vector2f(775 + 807, 218 + (17 * (i - 1))));
+                            mouse_pos = i;
+                            delete_sprite[i].setTexture(delete_texture);
+                            delete_sprite[i].setPosition(sf::Vector2f(740 + 807, 219 + (17 * (i - 1))));
+                        }
                     }
                 } // End Edit Icon & Delete Icon
             }     // End Mouse Moved
@@ -160,6 +190,26 @@ void start_app()
                             cout << "Delete ICON" << endl;
                         }
                     } // end click on Edit Icon
+                    // click on favorite Icon ---> Make it un-Favorite
+                    if (favorite_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    {
+                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                        {
+                            my_vec[mouse_pos].set_favourite(false);
+                            write_file(my_vec);
+                            cout << "Unfavorite ICON" << endl;
+                        }
+                    } // end click on favorite Icon
+                    // click on favorite-no Icon ---> Make it Favorite
+                    if (favorite_no_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    {
+                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                        {
+                            my_vec[mouse_pos].set_favourite(true);
+                            write_file(my_vec);
+                            cout << "favorite ICON" << endl;
+                        }
+                    } // end click on favorite Icon
                 }
             } // End Mouse CLICK
         }
@@ -168,11 +218,38 @@ void start_app()
         size_t i;
         for (i = 0; i < my_vec.size(); i++)
         {
-            if (my_vec[i].get_favourite() == true)
+            // Show Favourite Icon
+            // Column 1
+            if (i % 2 == 0)
             {
-                favorite_sprite[i].setTexture(favorite_texture);
-                favorite_sprite[i].setPosition(sf::Vector2f(20, 218 + (35 * i)));
-                window.draw(favorite_sprite[i]);
+                if (my_vec[i].get_favourite() == true)
+                {
+                    favorite_sprite[i].setTexture(favorite_texture);
+                    favorite_sprite[i].setPosition(sf::Vector2f(20, 218 + (17 * i)));
+                    window.draw(favorite_sprite[i]);
+                }
+                else
+                {
+                    favorite_no_sprite[i].setTexture(favorite_no_texture);
+                    favorite_no_sprite[i].setPosition(sf::Vector2f(20, 218 + (17 * i)));
+                    window.draw(favorite_no_sprite[i]);
+                }
+            }
+            // Column 2
+            else
+            {
+                if (my_vec[i].get_favourite() == true)
+                {
+                    favorite_sprite[i].setTexture(favorite_texture);
+                    favorite_sprite[i].setPosition(sf::Vector2f(20 + 807, 218 + (17 * (i - 1))));
+                    window.draw(favorite_sprite[i]);
+                }
+                else
+                {
+                    favorite_no_sprite[i].setTexture(favorite_no_texture);
+                    favorite_no_sprite[i].setPosition(sf::Vector2f(20 + 807, 218 + (17 * (i - 1))));
+                    window.draw(favorite_no_sprite[i]);
+                }
             }
             window.draw(task_array[i]);
         }
