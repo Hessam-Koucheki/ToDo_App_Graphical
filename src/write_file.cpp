@@ -1,4 +1,4 @@
-#include "../include/add_to_file.hpp"
+#include "../include/write_file.hpp"
 #include "../include/task.hpp"
 #include <iostream>
 #include <fstream>
@@ -6,7 +6,7 @@
 using std::endl;
 using std::vector;
 
-void add_to_file(vector<Task> &vec)
+void write_file(vector<Task> &vec)
 {
     std::ofstream out("../db.dat", std::ios::out);
     if (!out.is_open())

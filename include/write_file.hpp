@@ -3,4 +3,4 @@
 #include "task.hpp"
 #include <vector>
 
-void add_to_file(std::vector<Task> &);
+void write_file(std::vector<Task> &);

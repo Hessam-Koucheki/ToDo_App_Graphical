@@ -10,7 +10,7 @@
 #include "app.hpp"
 #include "add.hpp"
 #include "task.hpp"
-#include "add_to_file.hpp"
+#include "write_file.hpp"
 
 using namespace std;
 
@@ -70,7 +70,6 @@ void start_app()
     font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
     read_file(my_vec);
     size_t mouse_pos;
-    cout << "Mouse: " << mouse_pos << endl;
     // Main Loop
     while (window.isOpen())
     {
@@ -88,7 +87,7 @@ void start_app()
         { // Close Window    ?? TODO: SAY GOODBYE && style::none
             if (event.type == sf::Event::EventType::Closed)
             {
-                add_to_file(my_vec);
+                write_file(my_vec);
                 window.close();
             }
             //  Mouse Moved
@@ -112,7 +111,7 @@ void start_app()
                         mouse_pos = i;
                     }
                 } // End Edit Icon
-            }     // End Mouse Moved
+            }// End Mouse Moved
             //  ADD-Button :  Mouse CLICK
             if (event.type == sf::Event::MouseButtonPressed)
             {
@@ -136,10 +135,10 @@ void start_app()
                         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
                             my_vec.erase( my_vec.begin() + mouse_pos );
                             add(my_vec, my_vec[mouse_pos].get_task());
-                            add_to_file(my_vec);
+                            write_file(my_vec);
                             cout << "EDIT ICON" << endl;
                         } 
-                    }
+                    } // end click on Edit Icon
                 }
             } // End Mouse CLICK
         }

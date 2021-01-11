@@ -6,7 +6,7 @@ set(SOURCES
     src/app.cpp
     src/add.cpp
     src/task.cpp
-    src/add_to_file.cpp
+    src/write_file.cpp
     src/read_file.cpp
 )
 include_directories(include)
