@@ -156,7 +156,8 @@ void start_app()
             }
             window.draw(task_array[i]);
         }
-        window.draw(edit_sprite[mouse_pos]);
+        if ( my_vec.size() != 0 )
+            window.draw(edit_sprite[mouse_pos]);
         window.display();
     }
 }
