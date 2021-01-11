@@ -17,7 +17,7 @@ using namespace std;
 void start_app()
 {
     string input = "";
-    sf::RenderWindow window(sf::VideoMode(540, 960), "To Do Lists", sf::Style::Close); //size:  (9  in  16)  * 60
+    sf::RenderWindow window(sf::VideoMode(1614, 960), "To Do Lists", sf::Style::Close); //size:  (9  in  16)  * 60
 
     // Add a Background
     sf::Texture back_texture;
