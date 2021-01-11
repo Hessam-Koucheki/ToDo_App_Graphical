@@ -13,13 +13,18 @@
 #include "write_file.hpp"
 
 #define TASKS_CAPACITY 36
+#define add_icon_x 1492 
+#define add_icon_y 835
+#define window_x 1614 
+#define window_y 960
+#define character_size 24
 
 using namespace std;
 
 void start_app()
 {
     string input = "";
-    sf::RenderWindow window(sf::VideoMode(1614, 960), "To Do Lists", sf::Style::Close); //size:  (9  in  16)  * 60
+    sf::RenderWindow window(sf::VideoMode(window_x, window_y), "To Do Lists", sf::Style::Close); //size:  (9  in  16)  * 60
 
     // Add a Background
     sf::Texture back_texture;
@@ -29,8 +34,7 @@ void start_app()
     back_sprite.setTexture(back_texture);
     // End Of Adding Background
 
-    // Add ADD-Icon
-    int add_icon_x = 1450, add_icon_y = 835;
+    // Add ADD-Icon 
     sf::Texture add_texture;
     if (!add_texture.loadFromFile("../assets/icons/add.png"))
         cerr << "Error On Loading ADD-Icon" << endl;
@@ -96,7 +100,7 @@ void start_app()
             {
                 task_array[i].setFont(font);
                 task_array[i].setFillColor(sf::Color::Black);
-                task_array[i].setCharacterSize(24);
+                task_array[i].setCharacterSize(character_size);
                 task_array[i].setPosition(sf::Vector2f(50, 215 + (17 * i)));
                 task_array[i].setString(my_vec[i].get_task());
             }
@@ -104,7 +108,7 @@ void start_app()
             {
                 task_array[i].setFont(font);
                 task_array[i].setFillColor(sf::Color::Black);
-                task_array[i].setCharacterSize(24);
+                task_array[i].setCharacterSize(character_size);
                 task_array[i].setPosition(sf::Vector2f(50 + 807, 215 + (17 * (i - 1))));
                 task_array[i].setString(my_vec[i].get_task());
             }
@@ -215,19 +219,20 @@ void start_app()
         }
         window.draw(back_sprite);
         window.draw(add_sprite);
-        size_t i;
-        for (i = 0; i < my_vec.size(); i++)
+        for (size_t i = 0; i < my_vec.size(); i++)
         {
             // Show Favourite Icon
             // Column 1
             if (i % 2 == 0)
             {
+                // Favorite
                 if (my_vec[i].get_favourite() == true)
                 {
                     favorite_sprite[i].setTexture(favorite_texture);
                     favorite_sprite[i].setPosition(sf::Vector2f(20, 218 + (17 * i)));
                     window.draw(favorite_sprite[i]);
                 }
+                // no favorite
                 else
                 {
                     favorite_no_sprite[i].setTexture(favorite_no_texture);
@@ -238,6 +243,7 @@ void start_app()
             // Column 2
             else
             {
+                // Favorite
                 if (my_vec[i].get_favourite() == true)
                 {
                     favorite_sprite[i].setTexture(favorite_texture);
@@ -245,14 +251,16 @@ void start_app()
                     window.draw(favorite_sprite[i]);
                 }
                 else
+                // no favorite
                 {
                     favorite_no_sprite[i].setTexture(favorite_no_texture);
                     favorite_no_sprite[i].setPosition(sf::Vector2f(20 + 807, 218 + (17 * (i - 1))));
                     window.draw(favorite_no_sprite[i]);
                 }
-            }
+            } // displays all tasks
             window.draw(task_array[i]);
         }
+        // display edit and delete icons
         if (my_vec.size() != 0)
         {
             window.draw(edit_sprite[mouse_pos]);
