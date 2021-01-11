@@ -60,6 +60,14 @@ void start_app()
     if (!edit_texture.loadFromFile("../assets/icons/edit.png"))
         cerr << "Error On Loading edit Icon" << endl;
     sf::Sprite edit_sprite[18];
+    // Add delete Button
+    sf::Texture delete_texture, delete_texture_hovered;
+    if (!delete_texture.loadFromFile("../assets/icons/delete.png"))
+        cout << "Error On Loading delete Icon" << endl;
+    if (!delete_texture_hovered.loadFromFile("../assets/icons/delete-hover.png"))
+        cout << "Error On Loading delete-hover Icon" << endl;
+    sf::Sprite delete_sprite[18];
+    // End of Adding delete Button
 
     // vector to save read contents from file
     vector<Task> my_vec;
@@ -101,7 +109,7 @@ void start_app()
                 else
                     add_sprite.setTexture(add_texture);
                 // End Add Icon : Hover
-                // Edit Icon
+                // Edit Icon & Delete Icon
                 for (size_t i = 0; i < my_vec.size(); i++)
                 {
                     if (task_array[i].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)) && my_vec.size() > 0)
@@ -109,9 +117,11 @@ void start_app()
                         edit_sprite[i].setTexture(edit_texture);
                         edit_sprite[i].setPosition(sf::Vector2f(510, 218 + (35 * i)));
                         mouse_pos = i;
+                        delete_sprite[i].setTexture(delete_texture);
+                        delete_sprite[i].setPosition(sf::Vector2f(485, 217 + (35 * i)));
                     }
-                } // End Edit Icon
-            }// End Mouse Moved
+                } // End Edit Icon & Delete Icon
+            }     // End Mouse Moved
             //  ADD-Button :  Mouse CLICK
             if (event.type == sf::Event::MouseButtonPressed)
             {
@@ -132,11 +142,23 @@ void start_app()
                     // click on Edit Icon
                     if (edit_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
-                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                        {
                             add(my_vec, my_vec[mouse_pos].get_task());
                             write_file(my_vec);
                             cout << "EDIT ICON" << endl;
-                        } 
+                        }
+                    } // end click on Edit Icon
+                    // click on Delete Icon
+                    if (delete_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    {
+                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                        {
+                            // add(my_vec, my_vec[mouse_pos].get_task());
+                            my_vec.erase(my_vec.begin() + mouse_pos);
+                            write_file(my_vec);
+                            cout << "Delete ICON" << endl;
+                        }
                     } // end click on Edit Icon
                 }
             } // End Mouse CLICK
@@ -154,8 +176,11 @@ void start_app()
             }
             window.draw(task_array[i]);
         }
-        if ( my_vec.size() != 0 )
+        if (my_vec.size() != 0)
+        {
             window.draw(edit_sprite[mouse_pos]);
+            window.draw(delete_sprite[mouse_pos]);
+        }
         window.display();
     }
 }
