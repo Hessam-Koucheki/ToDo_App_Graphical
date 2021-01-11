@@ -79,7 +79,7 @@ void add(vector<Task> &vec, string st)
                 {
                     input += event.text.unicode;
                     text.setString(input);
-                    cout << "got input! : " << input << "\n-> " << input.length() << endl;
+                    cout << "got input! : " << input << " -> " << input.length() << endl;
                 }
                 // Handling Enter
                 if (event.text.unicode == 13 && input.length() != 0)

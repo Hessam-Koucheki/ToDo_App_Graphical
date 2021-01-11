@@ -12,7 +12,7 @@
 #include "task.hpp"
 #include "write_file.hpp"
 
-#define TASKS_CAPACITY 36
+#define TASKS_CAPACITY 44
 #define add_icon_x 1492
 #define add_icon_y 835
 #define window_x 1614
@@ -169,8 +169,11 @@ void start_app()
                             window.draw(add_sprite_clicked);
                             window.display();
                         }
-                        cout << "add" << endl;
-                        add(my_vec);
+                        if (my_vec.size() < TASKS_CAPACITY)
+                        {
+                            add(my_vec);
+                            cout << "add" << endl;
+                        }
                     } // End Click on Add Icon
                     // click on Edit Icon
                     if (edit_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
