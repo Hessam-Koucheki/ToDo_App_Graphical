@@ -78,6 +78,12 @@ void start_app()
         cout << "Error On Loading delete-hover Icon" << endl;
     sf::Sprite delete_sprite[TASKS_CAPACITY];
     // End of Adding delete Button
+    // Add Full Icon
+    sf::Texture full_texture;
+    if (!full_texture.loadFromFile("../assets/icons/full.png"))
+        cout << "Error On Loading full Icon" << endl;
+    sf::Sprite full_sprite;
+    // End of Adding delete Button
 
     // vector to save read contents from file
     vector<Task> my_vec;
@@ -262,6 +268,12 @@ void start_app()
             window.draw(task_array[i]);
         }
         // display edit and delete icons
+        if (my_vec.size() == TASKS_CAPACITY)
+        {
+            full_sprite.setTexture(full_texture);
+            full_sprite.setPosition(window_x - 135, window_y - 135);
+            window.draw(full_sprite);
+        }
         if (my_vec.size() != 0)
         {
             window.draw(edit_sprite[mouse_pos]);
