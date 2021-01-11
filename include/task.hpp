@@ -17,5 +17,5 @@ public:
 private:
     bool state = false;
     bool favourite = false;
-    char task[30] = "";
+    char task[60] = "";
 };

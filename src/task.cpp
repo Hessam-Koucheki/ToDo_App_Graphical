@@ -1,10 +1,11 @@
 #include "../include/task.hpp"
 #include <string.h>
 
+#define TASK_LENGTH 40
 void Task::set_task(string task)
 {
-    if (task.length() >= 30)
-        strcpy(this->task, (task.substr(0, 29)).c_str());
+    if (task.length() >= TASK_LENGTH)
+        strcpy(this->task, (task.substr(0, TASK_LENGTH)).c_str());
     else
         strcpy(this->task, task.c_str());
 }
