@@ -20,5 +20,6 @@ void add_to_file(vector<Task> &vec)
     }
     for (auto const &task : vec)
         out << task.get_task() << ";" << task.get_favourite() << ' ' << task.get_state() << endl;
+    out.flush();
     out.close();
 }
