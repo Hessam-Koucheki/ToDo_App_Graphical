@@ -1,22 +1,21 @@
 sss;1 0
-aaaasasa;1 0
-yqq;1 0
+yqq;1 1
 23456789;1 0
-aaaaaaaaaaaaa;0 0
+aaaaaaaaaaaaa;1 0
 adwsqdwasd;1 0
 afeeqwfwfe;1 0
 baby;1 0
 nice;0 0
 brush my teeth;1 0
-read some book;1 0
-study english;0 0
+read some book;1 1
+study english;1 0
 take a breath;0 0
 meditate;1 0
-check browser;0 0
+check browser;1 1
 check emails;1 0
 answer comments;1 0
 go birthday;0 0
-make dinner;1 0
+make dinner;1 1
 buy something for breakfast;1 0
 listen to music;0 0
 debug my code;0 0

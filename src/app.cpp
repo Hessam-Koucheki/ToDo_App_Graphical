@@ -84,6 +84,16 @@ void start_app()
         cout << "Error On Loading full Icon" << endl;
     sf::Sprite full_sprite;
     // End of Adding delete Button
+    // Add done Icon
+    sf::Texture done_false_texture, done_true_texture, done_hover_texture;
+    if (!done_false_texture.loadFromFile("../assets/icons/done-false.png"))
+        cout << "Error On Loading done-false Icon" << endl;
+    if (!done_true_texture.loadFromFile("../assets/icons/done-true.png"))
+        cout << "Error On Loading done-true Icon" << endl;
+    if (!done_hover_texture.loadFromFile("../assets/icons/done-hover.png"))
+        cout << "Error On Loading done-hover Icon" << endl;
+    sf::Sprite done_sprite[TASKS_CAPACITY];
+    // End of Adding done Button
 
     // vector to save read contents from file
     vector<Task> my_vec;
@@ -129,11 +139,13 @@ void start_app()
             //  Mouse Moved
             if (event.type == sf::Event::MouseMoved)
             {
+                // Done Icon - Icon : Hover
+                if (done_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
+                    done_sprite[mouse_pos].setTexture(done_hover_texture);
+                // End Done - Icon : Hover
                 // Add Icon - Hover
                 if (add_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
-                {
                     add_sprite.setTexture(add_texture_hovered);
-                }
                 else
                     add_sprite.setTexture(add_texture);
                 // End Add Icon : Hover
@@ -160,8 +172,9 @@ void start_app()
                         }
                     }
                 } // End Edit Icon & Delete Icon
-            }     // End Mouse Moved
-            //  ADD-Button :  Mouse CLICK
+
+            } // End Mouse Moved
+            // Mouse CLICK
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
@@ -224,6 +237,29 @@ void start_app()
                             cout << "favorite ICON" << endl;
                         }
                     } // end click on favorite Icon
+                    // click on done Icon ---> Make it un-done
+                    if (done_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)) && my_vec[mouse_pos].get_state() == true)
+                    {
+                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                        {
+                            task_array[mouse_pos].setStyle(sf::Text::Regular);
+                            done_sprite[mouse_pos].setTexture(done_false_texture);
+                            my_vec[mouse_pos].set_state(false);
+                            write_file(my_vec);
+                            cout << "Un-Done ICON" << endl;
+                        }
+                    } // end click on done Icon
+                    // click on Done Icon ---> Make it Done
+                    else
+                    {
+                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                        {
+                            done_sprite[mouse_pos].setTexture(done_true_texture);
+                            my_vec[mouse_pos].set_state(true);
+                            write_file(my_vec);
+                            cout << "Done ICON" << endl;
+                        }
+                    } // end click on favorite Icon
                 }
             } // End Mouse CLICK
         }
@@ -235,6 +271,19 @@ void start_app()
             // Column 1
             if (i % 2 == 0)
             {
+                // Done Icon
+                if (my_vec[i].get_state() == true)
+                {
+                    task_array[i].setStyle(sf::Text::StrikeThrough);
+                    done_sprite[i].setTexture(done_true_texture);
+                    done_sprite[i].setPosition(sf::Vector2f(720, 219 + (17 * i)));
+                }
+                else if (my_vec[i].get_state() == false && i != mouse_pos)
+                {
+
+                    done_sprite[i].setTexture(done_false_texture);
+                    done_sprite[i].setPosition(sf::Vector2f(720, 219 + (17 * i)));
+                } // End Done Icon
                 // Favorite
                 if (my_vec[i].get_favourite() == true)
                 {
@@ -247,10 +296,24 @@ void start_app()
                     favorite_sprite[i].setPosition(sf::Vector2f(20, 218 + (17 * i)));
                 }
                 window.draw(favorite_sprite[i]);
+                window.draw(done_sprite[i]);
             }
             // Column 2
             else
             {
+                // Done Icon
+                if (my_vec[i].get_state() == true)
+                {
+                    task_array[i].setStyle(sf::Text::StrikeThrough);
+                    done_sprite[i].setTexture(done_true_texture);
+                    done_sprite[i].setPosition(sf::Vector2f(710 + 807, 219 + (17 * (i - 1))));
+                }
+                else if (my_vec[i].get_state() == false && i != mouse_pos)
+                {
+
+                    done_sprite[i].setTexture(done_false_texture);
+                    done_sprite[i].setPosition(sf::Vector2f(710 + 807, 219 + (17 * (i - 1))));
+                } // End Done Icon
                 // Favorite
                 if (my_vec[i].get_favourite() == true)
                 {
@@ -263,6 +326,7 @@ void start_app()
                     favorite_sprite[i].setPosition(sf::Vector2f(20 + 807, 218 + (17 * (i - 1))));
                 }
                 window.draw(favorite_sprite[i]);
+                window.draw(done_sprite[i]);
             }
             // displays all tasks
             window.draw(task_array[i]);
@@ -282,3 +346,5 @@ void start_app()
         window.display();
     }
 }
+
+//  TODO : ADD COMPLETE ICON
