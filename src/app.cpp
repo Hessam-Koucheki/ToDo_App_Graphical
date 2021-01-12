@@ -141,7 +141,10 @@ void start_app()
             {
                 // Done Icon - Icon : Hover
                 if (done_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
+                {
                     done_sprite[mouse_pos].setTexture(done_hover_texture);
+                    ;
+                }
                 // End Done - Icon : Hover
                 // Add Icon - Hover
                 if (add_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
@@ -161,6 +164,7 @@ void start_app()
                             mouse_pos = i;
                             delete_sprite[i].setTexture(delete_texture);
                             delete_sprite[i].setPosition(sf::Vector2f(750, 219 + (17 * i)));
+                            task_array[i].setStyle(sf::Text::Bold);
                         }
                         else
                         {
@@ -169,8 +173,12 @@ void start_app()
                             mouse_pos = i;
                             delete_sprite[i].setTexture(delete_texture);
                             delete_sprite[i].setPosition(sf::Vector2f(740 + 807, 219 + (17 * (i - 1))));
+                            task_array[i].setStyle(sf::Text::Bold);
                         }
+                    } else {
+                        task_array[i].setStyle(sf::Text::Regular);
                     }
+                    
                 } // End Edit Icon & Delete Icon
 
             } // End Mouse Moved
@@ -257,7 +265,7 @@ void start_app()
                             done_sprite[mouse_pos].setTexture(done_true_texture);
                             my_vec[mouse_pos].set_state(true);
                             Task tmp = my_vec[mouse_pos];
-                            my_vec.erase( my_vec.begin() + mouse_pos);
+                            my_vec.erase(my_vec.begin() + mouse_pos);
                             my_vec.push_back(tmp);
                             write_file(my_vec);
                             cout << "Done ICON" << endl;
