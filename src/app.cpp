@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
 
 #include "read_file.hpp"
 #include "app.hpp"
@@ -94,6 +95,15 @@ void start_app()
         cout << "Error On Loading done-hover Icon" << endl;
     sf::Sprite done_sprite[TASKS_CAPACITY];
     // End of Adding done Button
+    // Adding Some Sounds But they Didn't Work...
+    /*
+    sf::SoundBuffer submit_cancel_edit_buffer ;
+    if (!submit_cancel_edit_buffer.loadFromFile("../assets/sounds/fav.wav"))
+        cout << "Error On Loading submit_cancel_edit sound!!!!" << endl;
+    sf::Sound submit_cancel_edit;
+    submit_cancel_edit.setBuffer(submit_cancel_edit_buffer);
+    submit_cancel_edit.play();
+    */
 
     // vector to save read contents from file
     vector<Task> my_vec;
@@ -143,7 +153,6 @@ void start_app()
                 if (done_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
                 {
                     done_sprite[mouse_pos].setTexture(done_hover_texture);
-                    ;
                 }
                 // End Done - Icon : Hover
                 // Add Icon - Hover

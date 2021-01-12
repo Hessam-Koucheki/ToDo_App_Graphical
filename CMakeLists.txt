@@ -11,4 +11,4 @@ set(SOURCES
 )
 include_directories(include)
 add_executable(app ${SOURCES})
-target_link_libraries(app sfml-window sfml-system sfml-graphics)
+target_link_libraries(app sfml-window sfml-system sfml-graphics -lsfml-audio)
