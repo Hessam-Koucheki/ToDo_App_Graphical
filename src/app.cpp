@@ -130,7 +130,7 @@ void start_app()
     sf::Texture all_del_texture, all_del_hover_texture;
     if (!all_del_texture.loadFromFile("../assets/icons/del-all.png"))
         cout << "Error On Loading del-all-texture button" << endl;
-    if (!all_del_hover_texture.loadFromFile("../assets/icons/del-all.png"))
+    if (!all_del_hover_texture.loadFromFile("../assets/icons/del-all-hover.png"))
         cout << "Error On Loading del_all_hover_texture button" << endl;
     sf::Sprite all_del_sprite;
     all_del_sprite.setTexture(all_del_texture);
@@ -191,7 +191,8 @@ void start_app()
         }
         sf::Event event;
         while (window.pollEvent(event))
-        { // Close Window    ?? TODO: SAY GOODBYE && style::none
+        {
+            // Close Window
             if (event.type == sf::Event::EventType::Closed)
             {
                 write_file(my_vec);
@@ -200,12 +201,42 @@ void start_app()
             //  Mouse Moved
             if (event.type == sf::Event::MouseMoved)
             {
-                // Done Icon - Icon : Hover
+                // Check as Done - Icon : Hover
                 if (done_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
                 {
                     done_sprite[mouse_pos].setTexture(done_hover_texture);
                 }
-                // End Done - Icon : Hover
+                // End  Check as Done - Icon : Hover
+                // Done All - Hover
+                if (all_done_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
+                    all_done_sprite.setTexture(all_done_hover_texture);
+                else
+                    all_done_sprite.setTexture(all_done_texture);
+                // End Done All : Hover
+                // unDone All - Hover
+                if (all_undone_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
+                    all_undone_sprite.setTexture(all_undone_hover_texture);
+                else
+                    all_undone_sprite.setTexture(all_undone_texture);
+                // End unDone All : Hover
+                // fav All - Hover
+                if (all_fav_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
+                    all_fav_sprite.setTexture(all_fav_hover_texture);
+                else
+                    all_fav_sprite.setTexture(all_fav_texture);
+                // End fav All : Hover
+                // unfav All - Hover
+                if (all_unfav_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
+                    all_unfav_sprite.setTexture(all_unfav_hover_texture);
+                else
+                    all_unfav_sprite.setTexture(all_unfav_texture);
+                // End unfav All : Hover
+                // del All - Hover
+                if (all_del_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
+                    all_del_sprite.setTexture(all_del_hover_texture);
+                else
+                    all_del_sprite.setTexture(all_del_texture);
+                // End del All : Hover
                 // Add Icon - Hover
                 if (add_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
                     add_sprite.setTexture(add_texture_hovered);
@@ -252,12 +283,9 @@ void start_app()
                     // Click On Add Icon
                     if (add_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
-                        while (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-                        {
-                            window.draw(back_sprite);
-                            window.draw(add_sprite_clicked);
-                            window.display();
-                        }
+                        window.draw(back_sprite);
+                        window.draw(add_sprite_clicked);
+                        window.display();
                         if (my_vec.size() < TASKS_CAPACITY)
                         {
                             add(my_vec);
@@ -267,71 +295,99 @@ void start_app()
                     // click on Edit Icon
                     if (edit_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
-                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-                        {
-                            add(my_vec, my_vec[mouse_pos].get_task());
-                            write_file(my_vec);
-                            cout << "EDIT ICON" << endl;
-                        }
+                        add(my_vec, my_vec[mouse_pos].get_task());
+                        write_file(my_vec);
+                        cout << "EDIT ICON" << endl;
                     } // end click on Edit Icon
                     // click on Delete Icon
                     if (delete_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
-                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-                        {
-                            // add(my_vec, my_vec[mouse_pos].get_task());
-                            my_vec.erase(my_vec.begin() + mouse_pos);
-                            write_file(my_vec);
-                            cout << "Delete ICON" << endl;
-                        }
+                        // add(my_vec, my_vec[mouse_pos].get_task());
+                        my_vec.erase(my_vec.begin() + mouse_pos);
+                        write_file(my_vec);
+                        cout << "Delete ICON" << endl;
                     } // end click on Edit Icon
+                    // click on Delete-ALL button
+                    if (all_del_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    {
+                        while (!my_vec.empty())
+                        {
+                            my_vec.pop_back();
+                        }
+                        write_file(my_vec);
+                        cout << "Delete All " << endl;
+                    } // end click on Delete All button
+                    // click on all-done button
+                    if (all_done_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    {
+                        for (auto & it : my_vec ){
+                            it.set_state(true);
+                        }
+                        write_file(my_vec);
+                        cout << "All Done " << endl;
+                    } // end click on all-done button
+                    // click on all-undone button
+                    if (all_undone_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    {
+                        for (auto & it : my_vec ){
+                            it.set_state(false);
+                        }
+                        write_file(my_vec);
+                        cout << "All unDone " << endl;
+                    } // end click on all-undone button
+                    // click on all-fav button
+                    if (all_fav_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    {
+                        for (auto & it : my_vec ){
+                            it.set_favourite(true);
+                        }
+                        write_file(my_vec);
+                        cout << "All fav " << endl;
+                    } // end click on all-fav button
+                    // click on all-unfav button
+                    if (all_unfav_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    {
+                        for (auto & it : my_vec ){
+                            it.set_favourite(false);
+                        }
+                        write_file(my_vec);
+                        cout << "All unfav " << endl;
+                    } // end click on all-unfav button
                     // click on favorite Icon ---> Make it un-Favorite
                     if (favorite_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)) && my_vec[mouse_pos].get_favourite() == true)
                     {
-                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-                        {
-                            favorite_sprite[mouse_pos].setTexture(favorite_no_texture);
-                            my_vec[mouse_pos].set_favourite(false);
-                            write_file(my_vec);
-                            cout << "Unfavorite ICON" << endl;
-                        }
+                        favorite_sprite[mouse_pos].setTexture(favorite_no_texture);
+                        my_vec[mouse_pos].set_favourite(false);
+                        write_file(my_vec);
+                        cout << "Unfavorite ICON" << endl;
                     } // end click on favorite Icon
                     // click on favorite-no Icon ---> Make it Favorite
                     else
                     {
-                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-                        {
-                            favorite_sprite[mouse_pos].setTexture(favorite_texture);
-                            my_vec[mouse_pos].set_favourite(true);
-                            write_file(my_vec);
-                            cout << "favorite ICON" << endl;
-                        }
+                        favorite_sprite[mouse_pos].setTexture(favorite_texture);
+                        my_vec[mouse_pos].set_favourite(true);
+                        write_file(my_vec);
+                        cout << "favorite ICON" << endl;
                     } // end click on favorite Icon
                     // click on done Icon ---> Make it un-done
                     if (done_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)) && my_vec[mouse_pos].get_state() == true)
                     {
-                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-                        {
-                            task_array[mouse_pos].setStyle(sf::Text::Regular);
-                            done_sprite[mouse_pos].setTexture(done_false_texture);
-                            my_vec[mouse_pos].set_state(false);
-                            write_file(my_vec);
-                            cout << "Un-Done ICON" << endl;
-                        }
+                        task_array[mouse_pos].setStyle(sf::Text::Regular);
+                        done_sprite[mouse_pos].setTexture(done_false_texture);
+                        my_vec[mouse_pos].set_state(false);
+                        write_file(my_vec);
+                        cout << "Un-Done ICON" << endl;
                     } // end click on done Icon
                     // click on Done Icon ---> Make it Done
                     else
                     {
-                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-                        {
-                            done_sprite[mouse_pos].setTexture(done_true_texture);
-                            my_vec[mouse_pos].set_state(true);
-                            Task tmp = my_vec[mouse_pos];
-                            my_vec.erase(my_vec.begin() + mouse_pos);
-                            my_vec.push_back(tmp);
-                            write_file(my_vec);
-                            cout << "Done ICON" << endl;
-                        }
+                        done_sprite[mouse_pos].setTexture(done_true_texture);
+                        my_vec[mouse_pos].set_state(true);
+                        Task tmp = my_vec[mouse_pos];
+                        my_vec.erase(my_vec.begin() + mouse_pos);
+                        my_vec.push_back(tmp);
+                        write_file(my_vec);
+                        cout << "Done ICON" << endl;
                     } // end click on favorite Icon
                 }
             } // End Mouse CLICK
