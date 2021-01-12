@@ -13,7 +13,7 @@
 #include "task.hpp"
 #include "write_file.hpp"
 
-#define TASKS_CAPACITY 44
+#define TASKS_CAPACITY 36
 #define add_icon_x 1492
 #define add_icon_y 835
 #define window_x 1614
@@ -85,6 +85,57 @@ void start_app()
         cout << "Error On Loading full Icon" << endl;
     sf::Sprite full_sprite;
     // End of Adding delete Button
+    // Add all-done button
+    sf::Texture all_done_texture, all_done_hover_texture;
+    if (!all_done_texture.loadFromFile("../assets/icons/all-done.png"))
+        cout << "Error On Loading all_done_texture button" << endl;
+    if (!all_done_hover_texture.loadFromFile("../assets/icons/all-done-hover.png"))
+        cout << "Error On Loading all_done_hover_texture button" << endl;
+    sf::Sprite all_done_sprite;
+    all_done_sprite.setTexture(all_done_texture);
+    all_done_sprite.setPosition(50 + 240, 840);
+    // End of Adding all-done button
+    // Add all-undone button
+    sf::Texture all_undone_texture, all_undone_hover_texture;
+    if (!all_undone_texture.loadFromFile("../assets/icons/all-undone.png"))
+        cout << "Error On Loading all_undone_texture button" << endl;
+    if (!all_undone_hover_texture.loadFromFile("../assets/icons/all-undone-hover.png"))
+        cout << "Error On Loading all_undone_hover_texture button" << endl;
+    sf::Sprite all_undone_sprite;
+    all_undone_sprite.setTexture(all_undone_texture);
+    all_undone_sprite.setPosition(50 + 240, 840 + 60);
+    // End of Adding all-done button
+    // Add all-fav button
+    sf::Texture all_fav_texture, all_fav_hover_texture;
+    if (!all_fav_texture.loadFromFile("../assets/icons/all-fav.png"))
+        cout << "Error On Loading all_fav_texture button" << endl;
+    if (!all_fav_hover_texture.loadFromFile("../assets/icons/all-fav-hover.png"))
+        cout << "Error On Loading all_fav_hover_texture button" << endl;
+    sf::Sprite all_fav_sprite;
+    all_fav_sprite.setTexture(all_fav_texture);
+    all_fav_sprite.setPosition(50, 840);
+    // End of Adding all-fav button
+    // Add all-unfav button
+    sf::Texture all_unfav_texture, all_unfav_hover_texture;
+    if (!all_unfav_texture.loadFromFile("../assets/icons/all-unfav.png"))
+        cout << "Error On Loading all_unfav_texture button" << endl;
+    if (!all_unfav_hover_texture.loadFromFile("../assets/icons/all-unfav-hover.png"))
+        cout << "Error On Loading all_unfav_hover_texture button" << endl;
+    sf::Sprite all_unfav_sprite;
+    all_unfav_sprite.setTexture(all_unfav_texture);
+    all_unfav_sprite.setTexture(all_unfav_texture);
+    all_unfav_sprite.setPosition(50, 840 + 60);
+    // End of Adding all-unfav button
+    // Add all-del button
+    sf::Texture all_del_texture, all_del_hover_texture;
+    if (!all_del_texture.loadFromFile("../assets/icons/del-all.png"))
+        cout << "Error On Loading del-all-texture button" << endl;
+    if (!all_del_hover_texture.loadFromFile("../assets/icons/del-all.png"))
+        cout << "Error On Loading del_all_hover_texture button" << endl;
+    sf::Sprite all_del_sprite;
+    all_del_sprite.setTexture(all_del_texture);
+    all_del_sprite.setPosition(50 + 240 + 240, 840 + 60);
+    // End of Adding all-unfav button
     // Add done Icon
     sf::Texture done_false_texture, done_true_texture, done_hover_texture;
     if (!done_false_texture.loadFromFile("../assets/icons/done-false.png"))
@@ -184,10 +235,12 @@ void start_app()
                             delete_sprite[i].setPosition(sf::Vector2f(740 + 807, 219 + (17 * (i - 1))));
                             task_array[i].setStyle(sf::Text::Bold);
                         }
-                    } else {
+                    }
+                    else
+                    {
                         task_array[i].setStyle(sf::Text::Regular);
                     }
-                    
+
                 } // End Edit Icon & Delete Icon
 
             } // End Mouse Moved
@@ -363,8 +416,16 @@ void start_app()
             window.draw(edit_sprite[mouse_pos]);
             window.draw(delete_sprite[mouse_pos]);
         }
+        // MAKE ALL FAVORITE AND ALL NOT_FAVOURITE
+        window.draw(all_fav_sprite);
+        window.draw(all_unfav_sprite);
+        // MAKE ALL DONE AND ALL NOT_DONE
+        window.draw(all_done_sprite);
+        window.draw(all_undone_sprite);
+        // DELETE ALL
+        window.draw(all_del_sprite);
         window.display();
     }
 }
 
-//  TODO : ADD COMPLETE ICON
+//  TODO :
