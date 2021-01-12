@@ -256,6 +256,9 @@ void start_app()
                         {
                             done_sprite[mouse_pos].setTexture(done_true_texture);
                             my_vec[mouse_pos].set_state(true);
+                            Task tmp = my_vec[mouse_pos];
+                            my_vec.erase( my_vec.begin() + mouse_pos);
+                            my_vec.push_back(tmp);
                             write_file(my_vec);
                             cout << "Done ICON" << endl;
                         }
