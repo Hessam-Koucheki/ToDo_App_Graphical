@@ -248,22 +248,23 @@ void start_app()
                 {
                     if (task_array[i].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)) && my_vec.size() > 0)
                     {
+                        // Column 1
                         if (i % 2 == 0)
                         {
                             edit_sprite[i].setTexture(edit_texture);
                             edit_sprite[i].setPosition(sf::Vector2f(750 + 35, 218 + (17 * i)));
                             mouse_pos = i;
                             delete_sprite[i].setTexture(delete_texture);
-                            delete_sprite[i].setPosition(sf::Vector2f(750, 219 + (17 * i)));
+                            delete_sprite[i].setPosition(sf::Vector2f(758, 219 + (17 * i)));
                             task_array[i].setStyle(sf::Text::Bold);
                         }
-                        else
+                        else // Column 2
                         {
                             edit_sprite[i].setTexture(edit_texture);
                             edit_sprite[i].setPosition(sf::Vector2f(740 + 35 + 807, 218 + (17 * (i - 1))));
                             mouse_pos = i;
                             delete_sprite[i].setTexture(delete_texture);
-                            delete_sprite[i].setPosition(sf::Vector2f(740 + 807, 219 + (17 * (i - 1))));
+                            delete_sprite[i].setPosition(sf::Vector2f(748 + 807, 219 + (17 * (i - 1))));
                             task_array[i].setStyle(sf::Text::Bold);
                         }
                     }
@@ -271,10 +272,8 @@ void start_app()
                     {
                         task_array[i].setStyle(sf::Text::Regular);
                     }
-
                 } // End Edit Icon & Delete Icon
-
-            } // End Mouse Moved
+            }     // End Mouse Moved
             // Mouse CLICK
             if (event.type == sf::Event::MouseButtonPressed)
             {
@@ -331,19 +330,14 @@ void start_app()
                         write_file(my_vec);
                         cout << "All unfav " << endl;
                     } // end click on all-unfav button
-                }
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
                     // Click On Add Icon
                     if (add_sprite.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
-                        window.draw(back_sprite);
                         window.draw(add_sprite_clicked);
-                        window.display();
                         if (my_vec.size() < TASKS_CAPACITY)
                         {
                             add(my_vec);
-                            cout << "add" << endl;
+                            cout << "Adding a New Task" << endl;
                         }
                     } // End Click on Add Icon
                     // click on Edit Icon
@@ -361,7 +355,7 @@ void start_app()
                         write_file(my_vec);
                         cout << "Delete ICON" << endl;
                     } // end click on Edit Icon
-                      // End Buttons
+                    // End Buttons
                     // click on favorite Icon ---> Make it un-Favorite
                     if (favorite_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
@@ -372,44 +366,48 @@ void start_app()
                             write_file(my_vec);
                             cout << "Unfavorite ICON" << endl;
                         }
+                        else
                         {
                             favorite_sprite[mouse_pos].setTexture(favorite_texture);
                             my_vec[mouse_pos].set_favourite(true);
                             write_file(my_vec);
                             cout << "favorite ICON  " << my_vec[mouse_pos].get_task() << endl;
                         } // end click on favorite Icon
-                    }// end click on favorite Icon
-                    // click on favorite-no Icon ---> Make it Favorite
-                    else
+                    }     // end click on favorite Icon
+                    else // click on favorite-no Icon ---> Make it Favorite
+                    {
                         // click on done Icon ---> Make it un-done
                         if (done_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
-                    {
-                        if (my_vec[mouse_pos].get_state() == true)
                         {
-                            task_array[mouse_pos].setStyle(sf::Text::Regular);
-                            done_sprite[mouse_pos].setTexture(done_false_texture);
-                            my_vec[mouse_pos].set_state(false);
-                            write_file(my_vec);
-                            cout << "Un-Done ICON" << endl;
-                        }
-                        // click on Done Icon ---> Make it Done
-                        else
-                        {
-                            done_sprite[mouse_pos].setTexture(done_true_texture);
-                            my_vec[mouse_pos].set_state(true);
-                            Task tmp = my_vec[mouse_pos];
-                            my_vec.erase(my_vec.begin() + mouse_pos);
-                            my_vec.push_back(tmp);
-                            write_file(my_vec);
-                            cout << "Done ICON  " << my_vec[mouse_pos].get_task() << endl;
-                        } // end click on Done Icon
-                    }     // end click on done Icon
+                            if (my_vec[mouse_pos].get_state() == true)
+                            {
+                                task_array[mouse_pos].setStyle(sf::Text::Regular);
+                                done_sprite[mouse_pos].setTexture(done_false_texture);
+                                my_vec[mouse_pos].set_state(false);
+                                write_file(my_vec);
+                                cout << "Un-Done ICON" << endl;
+                            }
+                            // click on Done Icon ---> Make it Done
+                            else
+                            {
+                                done_sprite[mouse_pos].setTexture(done_true_texture);
+                                my_vec[mouse_pos].set_state(true);
+                                Task tmp = my_vec[mouse_pos];
+                                my_vec.erase(my_vec.begin() + mouse_pos);
+                                my_vec.push_back(tmp);
+                                write_file(my_vec);
+                                cout << "Done ICON  " << my_vec[mouse_pos].get_task() << endl;
+                            } // end click on Done Icon
+                        }// end click on done Icon
+                    }
                 }
             } // End Mouse CLICK
         }
+////////////////////////////////////////////////////////////////////////////////
+        // Display Contents
         window.draw(back_sprite);
         window.draw(add_sprite);
-        // Show Favourite Icon
+        // Show Tasks
         for (size_t i = 0; i < my_vec.size(); i++)
         {
             // Column 1
@@ -424,7 +422,6 @@ void start_app()
                 }
                 else if (my_vec[i].get_state() == false && i != mouse_pos)
                 {
-
                     done_sprite[i].setTexture(done_false_texture);
                     done_sprite[i].setPosition(sf::Vector2f(720, 219 + (17 * i)));
                 } // End Done Icon
