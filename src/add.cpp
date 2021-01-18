@@ -84,6 +84,21 @@ void add(vector<Task> &vec, string st)
                 // Handling Enter
                 if (event.text.unicode == 13 && input.length() != 0)
                 {
+                    // search for the current task and replace it
+                    for (size_t i = 0; i < vec.size(); i++)
+                    {
+                        if (what_edited == vec[i].get_task())
+                        {
+                            task.set_task(input);
+                            task.set_favourite(is_favourite);
+                            task.set_state(false);
+                            vec.erase(vec.begin() + i);
+                            vec.insert(vec.begin() + i, task);
+                            cout << "Submited!! Edited" << endl;
+                            box.close();
+                            return;
+                        }
+                    }
                     task.set_task(input);
                     task.set_favourite(is_favourite);
                     task.set_state(false);
@@ -166,12 +181,12 @@ void add(vector<Task> &vec, string st)
                                 task.set_state(false);
                                 vec.erase(vec.begin() + i);
                                 vec.insert(vec.begin() + i, task);
-                                cout << "Submited!!" << endl;
+                                cout << "Submited!! Edited" << endl;
                                 box.close();
                                 return;
                             }
                         }
-
+                        /*
                         task.set_task(input);
                         task.set_favourite(is_favourite);
                         task.set_state(false);
@@ -179,7 +194,7 @@ void add(vector<Task> &vec, string st)
                         // vec.insert(vec.begin() + found, task);
                         vec.push_back(task);
                         cout << "Submited!!" << endl;
-                        box.close();
+                        box.close();*/
                     }
                 }
             } // End Submit : Click
