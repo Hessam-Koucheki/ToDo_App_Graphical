@@ -166,29 +166,6 @@ void start_app()
     font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
     read_file(my_vec);
     size_t mouse_pos = -1;
-    bool something_changed = true;
-    ///////////////////////////////////////////////////////////////////
-    //////////////////////////Optimization/////////////////////////////
-    ///////////////////////////////////////////////////////////////////
-    for (size_t i = 0; i < my_vec.size(); i++)
-    {
-        if (i % 2 == 0)
-        {
-            task_array[i].setFont(font);
-            task_array[i].setFillColor(sf::Color::Black);
-            task_array[i].setCharacterSize(character_size);
-            task_array[i].setPosition(sf::Vector2f(50, 215 + (17 * i)));
-            task_array[i].setString(my_vec[i].get_task());
-        }
-        else
-        {
-            task_array[i].setFont(font);
-            task_array[i].setFillColor(sf::Color::Black);
-            task_array[i].setCharacterSize(character_size);
-            task_array[i].setPosition(sf::Vector2f(50 + 807, 215 + (17 * (i - 1))));
-            task_array[i].setString(my_vec[i].get_task());
-        }
-    }
 
     // Main Loop
     while (window.isOpen())
@@ -196,29 +173,26 @@ void start_app()
         read_file(my_vec);
         move_done_to_end(my_vec);
         // Display Tasks
-        if (something_changed == true) // Optimizations
+        for (size_t i = 0; i < my_vec.size(); i++)
         {
-            for (size_t i = 0; i < my_vec.size(); i++)
+            if (i % 2 == 0)
             {
-                if (i % 2 == 0)
-                {
-                    task_array[i].setFont(font);
-                    task_array[i].setFillColor(sf::Color::Black);
-                    task_array[i].setCharacterSize(character_size);
-                    task_array[i].setPosition(sf::Vector2f(50, 215 + (17 * i)));
-                    task_array[i].setString(my_vec[i].get_task());
-                }
-                else
-                {
-                    task_array[i].setFont(font);
-                    task_array[i].setFillColor(sf::Color::Black);
-                    task_array[i].setCharacterSize(character_size);
-                    task_array[i].setPosition(sf::Vector2f(50 + 807, 215 + (17 * (i - 1))));
-                    task_array[i].setString(my_vec[i].get_task());
-                }
+                task_array[i].setFont(font);
+                task_array[i].setFillColor(sf::Color::Black);
+                task_array[i].setCharacterSize(character_size);
+                task_array[i].setPosition(sf::Vector2f(50, 215 + (17 * i)));
+                task_array[i].setString(my_vec[i].get_task());
             }
-            something_changed = false;
+            else
+            {
+                task_array[i].setFont(font);
+                task_array[i].setFillColor(sf::Color::Black);
+                task_array[i].setCharacterSize(character_size);
+                task_array[i].setPosition(sf::Vector2f(50 + 807, 215 + (17 * (i - 1))));
+                task_array[i].setString(my_vec[i].get_task());
+            }
         }
+
         sf::Event event;
         while (window.pollEvent(event))
         {
