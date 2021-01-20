@@ -248,7 +248,6 @@ void start_app()
                     add_sprite.setTexture(add_texture);
                 // End Add Icon : Hover
                 // Edit Icon & Delete Icon
-
                 for (size_t i = 0; i < my_vec.size(); i++)
                 {
                     if (task_array[i].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)) && my_vec.size() > 0)
@@ -501,5 +500,3 @@ void start_app()
         window.display();
     }
 }
-
-//  TODO : Move Comlpeted Task at the end even when a new task is added
