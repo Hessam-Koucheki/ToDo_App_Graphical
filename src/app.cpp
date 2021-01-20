@@ -12,6 +12,7 @@
 #include "add.hpp"
 #include "task.hpp"
 #include "write_file.hpp"
+#include "move_done_to_end.hpp"
 
 #define TASKS_CAPACITY 36
 #define add_icon_x 1492
@@ -169,6 +170,7 @@ void start_app()
     while (window.isOpen())
     {
         read_file(my_vec);
+        move_done_to_end(my_vec);
         // Display Tasks
         for (size_t i = 0; i < my_vec.size(); i++)
         {
@@ -496,4 +498,4 @@ void start_app()
     }
 }
 
-//  TODO :
+//  TODO : Move Comlpeted Task at the end even when a new task is added

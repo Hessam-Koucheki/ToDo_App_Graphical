@@ -8,6 +8,7 @@ set(SOURCES
     src/task.cpp
     src/write_file.cpp
     src/read_file.cpp
+    src/move_done_to_end.cpp
 )
 include_directories(include)
 add_executable(app ${SOURCES})
