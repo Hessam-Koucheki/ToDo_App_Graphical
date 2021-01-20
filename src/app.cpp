@@ -166,30 +166,58 @@ void start_app()
     font.loadFromFile("../assets/fonts/Poppins-Light.ttf");
     read_file(my_vec);
     size_t mouse_pos = -1;
+    bool something_changed = true;
+    ///////////////////////////////////////////////////////////////////
+    //////////////////////////Optimization/////////////////////////////
+    ///////////////////////////////////////////////////////////////////
+    for (size_t i = 0; i < my_vec.size(); i++)
+    {
+        if (i % 2 == 0)
+        {
+            task_array[i].setFont(font);
+            task_array[i].setFillColor(sf::Color::Black);
+            task_array[i].setCharacterSize(character_size);
+            task_array[i].setPosition(sf::Vector2f(50, 215 + (17 * i)));
+            task_array[i].setString(my_vec[i].get_task());
+        }
+        else
+        {
+            task_array[i].setFont(font);
+            task_array[i].setFillColor(sf::Color::Black);
+            task_array[i].setCharacterSize(character_size);
+            task_array[i].setPosition(sf::Vector2f(50 + 807, 215 + (17 * (i - 1))));
+            task_array[i].setString(my_vec[i].get_task());
+        }
+    }
+
     // Main Loop
     while (window.isOpen())
     {
         read_file(my_vec);
         move_done_to_end(my_vec);
         // Display Tasks
-        for (size_t i = 0; i < my_vec.size(); i++)
+        if (something_changed == true) // Optimizations
         {
-            if (i % 2 == 0)
+            for (size_t i = 0; i < my_vec.size(); i++)
             {
-                task_array[i].setFont(font);
-                task_array[i].setFillColor(sf::Color::Black);
-                task_array[i].setCharacterSize(character_size);
-                task_array[i].setPosition(sf::Vector2f(50, 215 + (17 * i)));
-                task_array[i].setString(my_vec[i].get_task());
+                if (i % 2 == 0)
+                {
+                    task_array[i].setFont(font);
+                    task_array[i].setFillColor(sf::Color::Black);
+                    task_array[i].setCharacterSize(character_size);
+                    task_array[i].setPosition(sf::Vector2f(50, 215 + (17 * i)));
+                    task_array[i].setString(my_vec[i].get_task());
+                }
+                else
+                {
+                    task_array[i].setFont(font);
+                    task_array[i].setFillColor(sf::Color::Black);
+                    task_array[i].setCharacterSize(character_size);
+                    task_array[i].setPosition(sf::Vector2f(50 + 807, 215 + (17 * (i - 1))));
+                    task_array[i].setString(my_vec[i].get_task());
+                }
             }
-            else
-            {
-                task_array[i].setFont(font);
-                task_array[i].setFillColor(sf::Color::Black);
-                task_array[i].setCharacterSize(character_size);
-                task_array[i].setPosition(sf::Vector2f(50 + 807, 215 + (17 * (i - 1))));
-                task_array[i].setString(my_vec[i].get_task());
-            }
+            something_changed = false;
         }
         sf::Event event;
         while (window.pollEvent(event))
@@ -246,6 +274,7 @@ void start_app()
                     add_sprite.setTexture(add_texture);
                 // End Add Icon : Hover
                 // Edit Icon & Delete Icon
+
                 for (size_t i = 0; i < my_vec.size(); i++)
                 {
                     if (task_array[i].getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)) && my_vec.size() > 0)
@@ -274,8 +303,9 @@ void start_app()
                     {
                         task_array[i].setStyle(sf::Text::Regular);
                     }
-                } // End Edit Icon & Delete Icon
-            }     // End Mouse Moved
+                    // End Edit Icon & Delete Icon
+                }
+            } // End Mouse Moved
             // Mouse CLICK
             if (event.type == sf::Event::MouseButtonPressed)
             {
@@ -376,7 +406,7 @@ void start_app()
                             cout << "favorite ICON  " << my_vec[mouse_pos].get_task() << endl;
                         } // end click on favorite Icon
                     }     // end click on favorite Icon
-                    else // click on favorite-no Icon ---> Make it Favorite
+                    else  // click on favorite-no Icon ---> Make it Favorite
                     {
                         // click on done Icon ---> Make it un-done
                         if (done_sprite[mouse_pos].getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y)))
@@ -400,12 +430,12 @@ void start_app()
                                 write_file(my_vec);
                                 cout << "Done ICON  " << my_vec[mouse_pos].get_task() << endl;
                             } // end click on Done Icon
-                        }// end click on done Icon
+                        }     // end click on done Icon
                     }
                 }
             } // End Mouse CLICK
         }
-////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
         // Display Contents
         window.draw(back_sprite);
         window.draw(add_sprite);
